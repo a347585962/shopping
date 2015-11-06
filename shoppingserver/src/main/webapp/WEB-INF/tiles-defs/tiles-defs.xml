@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+  <definition name="baselayout" template="/tiles/baselayout.jsp">
+      <put-attribute name="title" type="string" value="计算机与软件工程学院"/>
+      <put-attribute name="header" value="/tiles/header.jsp"/>
+      <put-attribute name="left" value="/tiles/left.jsp"/>
+      <put-attribute name="content" value="/tiles/content.jsp"/>
+      <put-attribute name="footer" value="/tiles/footer.jsp"/>
+  </definition>
+  <definition name="login" template="/WEB-INF/login.jsp">
+   </definition>
+   <definition name="front.*.*" extends="frontbaselayout">
+      <put-attribute name="title" type="string" value="{2}"/>
+      <put-attribute name="content" value="/front/{1}.jsp" />
+   </definition>
+   <definition name="*.*.*" extends="baselayout">
+      <put-attribute name="title" type="string" value="{3}"/>
+      <put-attribute name="content" value="/view/{1}/{2}.jsp" />
+   </definition>
+ </tiles-definitions> 

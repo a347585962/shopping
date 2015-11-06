@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Level2" table="level_2" catalog="shopping">
+        <id name="level2Id" type="java.lang.Integer">
+            <column name="Level2_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="level1" class="com.qx.model.Level1" lazy="false" fetch="select">
+            <column name="Level1_ID">
+                <comment>&#185;&#216;&#193;&#170;&#181;&#196;&#210;&#187;&#188;&#182;&#183;&#214;&#192;&#224;ID</comment>
+            </column>
+        </many-to-one>
+        <property name="level2Name" type="string">
+            <column name="Level2_Name" length="100">
+                <comment>&#182;&#254;&#188;&#182;&#183;&#214;&#192;&#224;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="level2Img" type="string">
+            <column name="level2_img" >
+                <comment></comment>
+            </column>
+        </property>
+        <set name="level3s" table="level_3" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="Level2_ID">
+                    <comment>&#185;&#216;&#193;&#170;&#181;&#196;&#182;&#254;&#188;&#182;&#183;&#214;&#192;&#224;ID</comment>
+                </column>
+            </key>
+            <one-to-many class="com.qx.model.Level3" />
+        </set>
+        
+    </class>
+</hibernate-mapping>

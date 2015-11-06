@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Goodsinfo" table="goodsinfo" catalog="shopping">
+        <id name="goodsId" type="java.lang.Integer">
+            <column name="GoodsID" />
+            <generator class="identity" />
+        </id>
+        <property name="goodsName" type="string">
+            <column name="GoodsName" length="20" not-null="true">
+                <comment>&#201;&#204;&#198;&#183;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="goodsPrice1" type="big_decimal">
+            <column name="GoodsPrice_1" precision="10">
+                <comment>&#201;&#204;&#198;&#183;&#188;&#219;&#184;&#241;</comment>
+            </column>
+        </property>
+        <property name="goodsPrice2" type="big_decimal">
+            <column name="GoodsPrice_2" precision="10">
+                <comment>&#187;&#225;&#212;&#177;&#188;&#219;</comment>
+            </column>
+        </property>
+        <property name="goodsPrice3" type="big_decimal">
+            <column name="GoodsPrice_3" precision="10">
+                <comment>&#197;&#250;&#183;&#162;&#188;&#219;</comment>
+            </column>
+        </property>
+        <property name="goodsPriceIn" type="big_decimal">
+            <column name="GoodsPrice_In" precision="10">
+                <comment>&#189;&#248;&#188;&#219;</comment>
+            </column>
+        </property>
+        <property name="goodsClass1" type="string">
+            <column name="GoodsClass_1" length="10">
+                <comment>&#210;&#187;&#188;&#182;&#192;&#224;&#177;&#240;</comment>
+            </column>
+        </property>
+        <property name="goodsClass2" type="string">
+            <column name="GoodsClass_2" length="10">
+                <comment>&#182;&#254;&#188;&#182;&#192;&#224;&#177;&#240;</comment>
+            </column>
+        </property>
+        <property name="goodsClass3" type="string">
+            <column name="GoodsClass_3" length="10">
+                <comment>&#200;&#253;&#188;&#182;&#192;&#224;&#177;&#240;</comment>
+            </column>
+        </property>
+        <property name="goodsType" type="string">
+            <column name="GoodsType" length="10">
+                <comment>&#201;&#204;&#198;&#183;&#208;&#205;&#186;&#197;(&#180;&#243;&#214;&#208;&#208;&#161;&#163;&#172;&#200;&#221;&#193;&#191;)</comment>
+            </column>
+        </property>
+        <property name="goodsUntis" type="string">
+            <column name="GoodsUntis" length="10">
+                <comment>&#201;&#204;&#198;&#183;&#181;&#165;&#206;&#187;</comment>
+            </column>
+        </property>
+        <property name="productAddress" type="string">
+            <column name="ProductAddress" length="30">
+                <comment>&#201;&#204;&#198;&#183;&#178;&#250;&#181;&#216;</comment>
+            </column>
+        </property>
+        <property name="barCode" type="string">
+            <column name="barcode" length="30">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="30">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="updateTime" type="timestamp">
+            <column name="UpdateTime" length="19">
+                <comment>&#180;&#180;&#189;&#168;&#184;&#252;&#208;&#194;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="photoUrl" type="string">
+            <column name="PhotoURL" length="30">
+                <comment>&#213;&#213;&#198;&#172;&#194;&#183;&#190;&#182;</comment>
+            </column>
+        </property>
+        <property name="goodsStock" type="java.lang.Integer">
+            <column name="GoodsStock" />
+        </property>
+         <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+         <property name="activityId" type="java.lang.Integer">
+            <column name="activityid" />
+        </property>
+        <property name="goodsPrice4" type="big_decimal">
+            <column name="GoodsPrice_4" precision="10">
+                <comment>&#180;&#217;&#207;&#250;&#188;&#219;&#184;&#241;</comment>
+            </column>
+        </property>
+       
+        <set name="cartinfos" table="cartinfo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="GoodsID" not-null="true">
+                    <comment>&#201;&#204;&#198;&#183;ID</comment>
+                </column>
+            </key>
+            <one-to-many class="com.qx.model.Cartinfo" />
+        </set>
+        <set name="subOrderinfos" table="sub_orderinfo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="GoodsID" not-null="true" />
+            </key>
+            <one-to-many class="com.qx.model.SubOrderinfo" />
+        </set>
+        <set name="pingjiainfos" table="pingjiainfo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="GoodsID" not-null="true">
+                    <comment>&#201;&#204;&#198;&#183;ID</comment>
+                </column>
+            </key>
+            <one-to-many class="com.qx.model.Pingjiainfo" />
+        </set>
+        <set name="favoriteinfos" table="favoriteinfo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="GoodsID" not-null="true">
+                    <comment>&#201;&#204;&#198;&#183;ID</comment>
+                </column>
+            </key>
+            <one-to-many class="com.qx.model.Favoriteinfo" />
+        </set>
+        
+    </class>
+</hibernate-mapping>

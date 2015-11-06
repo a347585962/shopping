@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Addressinfo" table="addressinfo" catalog="shopping">
+        <id name="addressId" type="java.lang.Integer">
+            <column name="AddressID" />
+            <generator class="identity" />
+        </id>
+        <property name="userId" type="string">
+            <column name="UserID" length="20">
+                <comment>&#211;&#195;&#187;&#167;ID</comment>
+            </column>
+        </property>
+        <property name="addressName" type="string">
+            <column name="AddressName" length="30">
+                <comment>&#181;&#216;&#214;&#183;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

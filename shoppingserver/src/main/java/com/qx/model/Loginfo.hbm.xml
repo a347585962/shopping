@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Loginfo" table="loginfo" catalog="shopping">
+        <id name="logId" type="java.lang.Integer">
+            <column name="LogID" />
+            <generator class="identity" />
+        </id>
+        <property name="operaterId" type="java.lang.Integer">
+            <column name="OperaterID">
+                <comment>&#178;&#217;&#215;&#247;&#212;&#177;ID</comment>
+            </column>
+        </property>
+        <property name="operaterType" type="string">
+            <column name="OperaterType" length="10">
+                <comment>&#178;&#217;&#215;&#247;&#192;&#224;&#208;&#205;</comment>
+            </column>
+        </property>
+        <property name="operaterIp" type="string">
+            <column name="OperaterIP" length="20">
+                <comment>&#178;&#217;&#215;&#247;&#200;&#203;ID</comment>
+            </column>
+        </property>
+       
+        <property name="operateValue" type="string">
+            <column name="OperateValue" >
+                <comment>&#178;&#217;&#215;&#247;&#200;&#203;ID</comment>
+            </column>
+        </property>
+        <property name="logTime" type="timestamp">
+            <column name="LogTime" length="19">
+                <comment>&#200;&#213;&#214;&#190;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

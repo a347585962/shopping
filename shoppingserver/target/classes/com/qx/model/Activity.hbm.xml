@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-8 9:22:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Activity" table="activity" catalog="shopping">
+        <id name="activityId" type="java.lang.Integer">
+            <column name="activity_id" />
+            <generator class="identity" />
+        </id>
+        <property name="activityName" type="string">
+            <column name="activity_name">
+                <comment>&#187;&#238;&#182;&#175;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="activityType" type="java.lang.Integer">
+            <column name="activity_type">
+                <comment>&#187;&#238;&#182;&#175;&#192;&#224;&#208;&#205;&#205;&#226;&#188;&#252;</comment>
+            </column>
+        </property>
+        <property name="activityStatus" type="java.lang.Integer">
+            <column name="activity_status">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="activityEnd" type="timestamp">
+            <column name="activity_end" length="19">
+                <comment></comment>
+            </column>
+        </property>
+         <property name="activityStart" type="timestamp">
+            <column name="activity_start" length="19">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="activityImg" type="string">
+            <column name="activity_img">
+                <comment>&#187;&#238;&#182;&#175;&#182;&#212;&#211;&#166;&#181;&#196;&#205;&#188;&#198;&#172;</comment>
+            </column>
+        </property>
+        <one-to-one name="activityTypeO" class="com.qx.model.Activitytype" lazy="false">      
+        </one-to-one>
+       
+        
+    </class>
+</hibernate-mapping>

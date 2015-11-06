@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+  <definition name="frontbaselayout" template="/fronttiles/baselayout.jsp">
+      <put-attribute name="title" type="string" value="群祥客户端"/>
+      <put-attribute name="header" value="/fronttiles/header.jsp"/>
+      <put-attribute name="content" value="/fronttiles/content.jsp"/>
+      <put-attribute name="footer" value="/fronttiles/footer.jsp"/>
+  </definition>
+  
+   
+ </tiles-definitions> 

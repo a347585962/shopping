@@ -1,0 +1,42 @@
+div#rMenu {
+	position: absolute;
+	visibility: hidden;
+	top: 0;
+	text-align: left;
+	padding: 2px;
+}
+
+.table {
+	margin-top: 10px;
+}
+
+.table span {
+	margin: 5px;
+	padding: 5 5px;
+}
+
+.table .left {
+	float: left;
+	margin-top:10px;
+}
+
+.table .right {
+	float: right;
+	margin-right: 300px;
+	margin-top:10px;
+}
+.ts3{
+	background-color: #ffffcc;
+	color:#666;
+	width:100%;
+	height:40px;
+	margin-bottom:10px;
+	padding:10px; 
+	margin-left:-40px;
+}
+.texthidden{
+     width:160px;
+     overflow:hidden;
+     text-overflow:ellipsis;
+     white-space:nowrap;
+   }

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Favoriteinfo" table="favoriteinfo" catalog="shopping">
+        <id name="favoriteId" type="java.lang.Integer">
+            <column name="FavoriteID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="goodsinfo" class="com.qx.model.Goodsinfo" fetch="select">
+            <column name="GoodsID" not-null="true">
+                <comment>&#201;&#204;&#198;&#183;ID</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="userinfo" class="com.qx.model.Userinfo" fetch="select">
+            <column name="UserID" not-null="true">
+                <comment>&#211;&#195;&#187;&#167;ID</comment>
+            </column>
+        </many-to-one>
+        <property name="favDate" type="date">
+            <column name="FavDate" length="10">
+                <comment>&#202;&#213;&#178;&#216;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

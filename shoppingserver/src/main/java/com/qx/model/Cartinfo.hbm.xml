@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Cartinfo" table="cartinfo" catalog="shopping">
+        <id name="cartId" type="java.lang.Integer">
+            <column name="CartID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="goodsinfo" class="com.qx.model.Goodsinfo" fetch="select">
+            <column name="GoodsID" not-null="true">
+                <comment>&#201;&#204;&#198;&#183;ID</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="userinfo" class="com.qx.model.Userinfo" fetch="select">
+            <column name="UserID" not-null="true">
+                <comment>&#211;&#195;&#187;&#167;ID</comment>
+            </column>
+        </many-to-one>
+        <property name="orderNum" type="java.lang.Integer">
+            <column name="OrderNum">
+                <comment>&#201;&#204;&#198;&#183;&#202;&#253;&#193;&#191;</comment>
+            </column>
+        </property>
+        <property name="goodsPrice" type="big_decimal">
+            <column name="GoodsPrice" precision="10">
+                <comment>&#201;&#204;&#198;&#183;&#181;&#165;&#188;&#219;</comment>
+            </column>
+        </property>
+        <property name="totalPrice" type="big_decimal">
+            <column name="TotalPrice" precision="10">
+                <comment>&#201;&#204;&#198;&#183;&#215;&#220;&#188;&#219;</comment>
+            </column>
+        </property>
+        <property name="addressId" type="java.lang.Integer">
+            <column name="AddressID">
+                <comment>
+                &#181;&#216;&#214;&#183;&#163;&#172;&#191;&#201;&#206;&#170;&#191;&#213;&#163;&#172;&#177;&#237;&#202;&#190;&#215;&#212;&#204;&#225;&#163;&#168;&#211;&#166;&#184;&#195;&#201;&#232;&#206;&#170;&#181;&#165;&#209;&#161;&#176;&#180;&#197;&#165;&#163;&#169;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

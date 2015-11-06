@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.SubOrderinfo" table="sub_orderinfo" catalog="shopping">
+        <id name="subOrderId" type="java.lang.Integer">
+            <column name="SubOrderID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="goodsinfo" class="com.qx.model.Goodsinfo" lazy="false" fetch="select">
+            <column name="GoodsID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="orderinfo" class="com.qx.model.Orderinfo" lazy="false" fetch="select">
+            <column name="OrderID" not-null="true" />
+        </many-to-one>
+        <property name="goodsNum" type="int">
+            <column name="GoodsNum" not-null="true" />
+        </property>
+        <property name="goodsPrice" type="big_decimal">
+            <column name="GoodsPrice" precision="10" />
+        </property>
+        <property name="remark" type="string">
+            <column name="Remark" length="100">
+                <comment></comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

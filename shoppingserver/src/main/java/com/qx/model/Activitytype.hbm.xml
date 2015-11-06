@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-8 9:22:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Activitytype" table="activitytype" catalog="shopping">
+        <id name="activitytypeId" type="java.lang.Integer">
+            <column name="activitytype_id" />
+            <generator class="identity" />
+        </id>
+        <property name="activitytypeName" type="string">
+            <column name="activitytype_name">
+                <comment>&#187;&#238;&#182;&#175;&#192;&#224;&#208;&#205;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="activitytypeNickname" type="string">
+            <column name="activitytype_nickname">
+                <comment></comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

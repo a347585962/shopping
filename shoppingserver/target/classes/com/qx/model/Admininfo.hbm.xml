@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Admininfo" table="admininfo" catalog="shopping">
+        <id name="adminId" type="java.lang.Integer">
+            <column name="AdminID" />
+            <generator class="identity" />
+        </id>
+        <property name="password" type="string">
+            <column name="Password" length="20">
+                <comment>&#195;&#220;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="registerTime" type="timestamp">
+            <column name="RegisterTime" length="19">
+                <comment>&#215;&#162;&#178;&#225;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="userName" type="string">
+            <column name="UserName">
+                <comment>&#185;&#220;&#192;&#237;&#212;&#177;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

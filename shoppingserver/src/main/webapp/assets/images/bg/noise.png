@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!--[if IE 8]>			<html class="ie ie8"> <![endif]-->
+<!--[if IE 9]>			<html class="ie ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="zh-CN">
+<!--<![endif]-->
+<head>
+<!--定义标题，关键词，描述--->
+<title>404错误 | 前端笔记</title>
+
+<!--zblogPHP官方定义及调用-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="Content-Language" content="zh-CN" />
+<meta name="generator" content="Z-BlogPHP 1.3 Wonce Build 140614" />
+<meta name="author" content="www.paipk.com" />
+ 
+<!-- 移动搜索 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!-- Library CSS --><!--主导航-->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/bootstrap.min.css">
+<!--图标字体-->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/fonts/font-awesome/css/font-awesome.css">
+<!--图片显示模式-->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/animations.css" media="screen">
+<!--导航下拉条-->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/superfish.css" media="screen">
+<!--照片放大CSS--> 
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/prettyPhoto.css" media="screen">
+<!-- Theme CSS -->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/style/style.css">
+<!--主题响应：颜色和宽度判断-->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/color.css" id="colors">
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/theme-responsive.css">
+<!-- 设置颜色的CSS -->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/switcher.css">
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/css/spectrum.css">
+<script src="../../../../yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- 手写定义CSS -->
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/theme/paipkme/style/and.css">
+<script src="../../../../sc-www.com/zb_system/script/common.js" type="text/javascript"></script> 
+<script src="../../../../sc-www.com/zb_system/script/c_html_js_add.php" type="text/javascript"></script>
+<script type="text/javascript" src="../../../../sc-www.com/zb_users/plugin/HeartVote/js/vote.js"></script>
+<link rel="stylesheet" href="../../../../sc-www.com/zb_users/plugin/HeartVote/css/stars.css" type="text/css" />
+<script type="text/javascript" src="../../../../assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+<meta name="description" content="404错误" />
+</head>
+<body class="blog">
+<div class="wrap">
+<!-- Header Start --> 
+<header id="header"> 
+  <!-- Header Top Bar Start -->
+  <div class="top-bar">
+    <div class="slidedown collapse">
+      <div class="container">
+        <div class="phone-email pull-left"> <a><i class="icon-phone"></i> Call Us : 028-83120956</a> <a target="_blank" href="../../../../mail.qq.com/cgi-bin/qm_share@t=qm_mailme&email=139087006_40qq.com" style="text-decoration:none;"  rel="nofollow" title="给我写信"><i class="icon-envelope"></i> 139087006@qq.com</a> </div>        <div class="pull-right">
+          <ul class="social pull-left">
+            <!--<li class="dribbble"><a href="{$host}?id=67" title="BUG提交"><i class="icon-bug"></i></a></li>
+<li class="facebook"><a href="{$host}?id=68" title="投稿"><i class="icon-calendar-empty"></i></a></li>-->            <li class="twitter"> <a href="../../../../sc-www.com/zb_system/admin/@act=admin" title="后台管理"><i class="icon-cog"></i></a> </li>
+            <!--后台管理/登录管理-->
+            <li class="linkedin"> <a href="../../../../sc-www.com/zb_system/admin/@act=admin" title="发表文章"><i class="icon-share-alt"></i></a> </li>
+            <!--发表文章/查看权限-->
+            <li class="rss" title="RSS订阅"><a href="../../../../sc-www.com/feed.php" target="_blank"><i class="icon-rss"></i></a></li>
+          </ul>
+          <div id="search-form" class="pull-right">
+            <form action="http://sc-www.com/zb_system/cmd.php?act=search" name="search"  method="post">
+              <input type="text" class="search-text-box" name="q" value="输入后请按回车...">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Header Top Bar End --> 
+  <!-- Main Header Start -->
+  <div class="main-header">
+    <div class="container"> 
+      <!-- TopNav Start -->
+      <div class="topnav navbar-header"> <a class="navbar-toggle down-button" data-toggle="collapse" data-target=".slidedown"> <i class="icon-angle-down icon-current"></i> </a> </div>
+      <!-- TopNav End --> 
+      <!-- Logo Start -->
+      <div class="logo pull-left">
+        <h1> <a href="../../../../sc-www.com/default.htm"> <img src="../../../../sc-www.com/zb_users/theme/paipkme/include/logo.png" alt="前端笔记" width="125" height="60"> </a> </h1>
+      </div>
+      <!-- Logo End --> 
+      <!-- Mobile Menu Start -->
+      <div class="mobile navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <i class="icon-reorder icon-2x"></i> </a> </div>
+      <!-- Mobile Menu End --> 
+      <!-- Menu Start -->
+      <nav class="collapse navbar-collapse menu"><ul class="nav navbar-nav sf-menu"><li><a id="nvabar-item-index" href="../../../../sc-www.com/default.htm">首页</a></li><li id="navbar-category-11"><a href="../../../../sc-www.com/category-11.html">前端代码</a></li><li id="navbar-category-12"><a href="../../../../sc-www.com/category-12.html">HTML5与CSS3</a></li><li id="navbar-category-13"><a href="../../../../sc-www.com/category-13.html">JQ特效</a></li><li id="navbar-category-14"><a href="../../../../sc-www.com/category-14.html">IT网址导航</a></li><li id="navbar-category-15"><a href="../../../../sc-www.com/category-15.html">闲谈杂记</a></li></ul></nav>
+      <!-- Menu End --> 
+    </div>
+  </div>
+  <!-- Main Header End --> 
+</header>
+ 
+<!-- Header End --> 
+<!-- Content Start -->
+<div id="main">
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div class="posts-block col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <article>
+          <!--<h3 class="title">404错误</h3>-->
+          <div class="post-content text-center">
+             <iframe scrolling='no' frameborder='0' src='../../../../yibo.iyiyun.com/Home/Distribute/ad404/key/7254' width='654' height='470'></iframe>
+          </div>
+        </article>
+        <div class="divider"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Main Content end--> 
+</div>
+<!-- Content End --> 
+<!-- Footer Start -->
+<footer id="footer">
+
+<!-- Footer Bottom Start -->
+<div class="footer-bottom">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6 ">Powered By <a href="../../../../www.zblogcn.com/default.htm" title="RainbowSoft Z-BlogPHP" target="_blank">Z-BlogPHP</a>.Theme by <a target="_blank" title="拍拍看科技" href="../../../../www.paipk.com/default.htm" target="_blank">Paipk.com</a>. Copyright www.sc-www.com   Rights Reserved.备案号:蜀ICP备10209023号  E-Mail:jasonjeed@hotmail.com <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1252987380'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/stat.php%3Fid%3D1252987380%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></div>
+      <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6 ">
+        <ul class="social social-icons-footer-bottom">
+          <!--sitemap-->
+          <li class="facebook"><a href="../../../../sc-www.com/sitemap.xml" title="sitemap" target="_blank"><i class="icon-meh"></i></a></li>
+          <!--RSS订阅-->
+          <li class="rss" title="RSS订阅"><a href="../../../../sc-www.com/feed.php" target="_blank"><i class="icon-rss"></i></a></li>
+          <!--后台管理/登录管理-->
+          <li class="twitter"> <a href="../../../../sc-www.com/zb_system/admin/@act=admin" title="后台管理"><i class="icon-cog"></i></a> </li>
+          <!--发表文章/查看权限-->
+          <li class="linkedin"> <a href="../../../../sc-www.com/zb_system/admin/@act=admin" title="发表文章"><i class="icon-share-alt"></i></a> </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer Bottom End -->
+</footer>
+<div>
+<!-- Scroll To Top --> 
+<a href="#" class="scrollup"><i class="icon-angle-up"></i></a>
+</div>
+<!--这个主题的-->
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/bootstrap.js"></script><!--引导--> 
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/jquery.parallax.js"></script><!--回到顶部--> 
+<!--script src="http://sc-www.com/zb_users/theme/paipkme/js/modernizr-2.6.2.min.js"></script-->
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/revolution-slider/js/jquery.themepunch.revolution.min.js"></script> 
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/jquery.nivo.slider.pack.js"></script> 
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/jquery.prettyPhoto.js"></script><!--blog顶部图片分享--> 
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/superfish.js"></script><!--导航栏-->
+<!--script src="http://sc-www.com/zb_users/theme/paipkme/js/tweetMachine.js"></script--> 
+<!--script src="http://sc-www.com/zb_users/theme/paipkme/js/tytabs.js"></script--> 
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/jquery.sticky.js"></script> 
+<!--script src="http://sc-www.com/zb_users/theme/paipkme/js/jflickrfeed.js"></script-->
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/imagesloaded.pkgd.min.js"></script> 
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/waypoints.min.js"></script> 
+<!--script src="http://sc-www.com/zb_users/theme/paipkme/js/spectrum.js"></script>侧栏颜色调整--> 
+<!--script src="http://sc-www.com/zb_users/theme/paipkme/js/switcher.js"></script-->
+<!--script src="http://sc-www.com/zb_users/theme/paipkme/js/jquery.gmap.min.js"></script-->
+<script src="../../../../sc-www.com/zb_users/theme/paipkme/js/custom.js"></script> 
+<script id="cy_cmt_num" src="../../../../assets.changyan.sohu.com/upload/tools/cy_cmt_count.js@clientId=cyrj4Qy6O"></script>
+</body></html> 
+<!--164.31ms , 9 query , 1669kb memory , 0 error-->

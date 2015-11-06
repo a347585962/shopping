@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-9-6 15:37:17 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Pingjiainfo" table="pingjiainfo" catalog="shopping">
+        <id name="pingjiaId" type="java.lang.Integer">
+            <column name="PingjiaID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="goodsinfo" class="com.qx.model.Goodsinfo" fetch="select">
+            <column name="GoodsID" not-null="true">
+                <comment>&#201;&#204;&#198;&#183;ID</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="userinfo" class="com.qx.model.Userinfo" fetch="select">
+            <column name="UserID" not-null="true">
+                <comment>&#211;&#195;&#187;&#167;ID</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="orderinfo" class="com.qx.model.Orderinfo" fetch="select">
+            <column name="OrderID" not-null="true">
+                <comment>&#182;&#169;&#181;&#165;&#193;&#247;&#203;&#174;ID</comment>
+            </column>
+        </many-to-one>
+        <property name="pingjiaStatus" type="java.lang.Integer">
+            <column name="PingjiaStatus">
+                <comment>
+                &#198;&#192;&#188;&#219;&#215;&#180;&#204;&#172;&#163;&#168;&#210;&#212;&#198;&#192;&#161;&#162;&#206;&#180;&#198;&#192;&#163;&#172;&#163;&#172;&#163;&#172;&#163;&#169;</comment>
+            </column>
+        </property>
+        <property name="pingjiaContent" type="string">
+            <column name="PingjiaContent" length="60">
+                <comment>&#198;&#192;&#188;&#219;&#196;&#218;&#200;&#221;</comment>
+            </column>
+        </property>
+        <property name="pingjiaTime" type="timestamp">
+            <column name="PingjiaTime" length="19">
+                <comment>&#198;&#192;&#188;&#219;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
