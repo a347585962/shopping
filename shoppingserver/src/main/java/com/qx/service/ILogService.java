@@ -24,14 +24,35 @@ public interface ILogService {
 	 */
 	public List<Loginfo> findByPage(final int start, final int size);
 	/**
+	 *  分页查询日志集合
+	 * @param start 开始序列
+	 * @param size 返回最大的数量
+	 * @param shopId 商家id
+	 * @return 分页查询日志集合
+	 */
+	public List<Loginfo> findByPage(final int start, final int size, Integer shopId);
+	/**
 	 *  查询所有日志的数量
 	 * @return 日志数量
 	 */
 	public int findLogSize();
+	/**
+	 *  查询所有日志的数量
+	 *  @param 商家id
+	 * @return 日志数量
+	 */
+	public int findLogSize(Integer shopId);
 	/**
 	 *  根据日志id查询日志对象实例
 	 * @param id 日志id
 	 * @return 日志对象实例
 	 */
 	public Loginfo selectByPrimaryId(Integer id);
+	/**
+	 *  根据日志id查询日志对象实例
+	 * @param id 日志id
+	 * @param shopId 商家id
+	 * @return 日志对象实例
+	 */
+	public Loginfo selectByPrimaryId(Integer id, Integer shopId);
 }

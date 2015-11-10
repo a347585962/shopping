@@ -31,7 +31,25 @@ public class Userinfo implements java.io.Serializable {
 	private Set favoriteinfos_1 = new HashSet(0);
 	private Set cartinfos_1 = new HashSet(0);
 	private Set orderinfos = new HashSet(0);
+	private Integer shopId;
+	private String userStatus;
 	
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
+
 	public Userinfo(Integer userId, String userPhone, Integer sumgoods) {
 		super();
 		this.userId = userId;

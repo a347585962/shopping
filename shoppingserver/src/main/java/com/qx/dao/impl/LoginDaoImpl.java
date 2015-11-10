@@ -1,5 +1,7 @@
 package com.qx.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,6 +14,7 @@ import com.qx.dao.ICommonUserDao;
 import com.qx.dao.LoginDao;
 import com.qx.model.Admininfo;
 import com.qx.model.Userinfo;
+import com.qx.utils.ConstantUtil;
 @Repository("adminUserDao")
 public class LoginDaoImpl implements ICommonUserDao<Admininfo>{
 	/**
@@ -20,11 +23,6 @@ public class LoginDaoImpl implements ICommonUserDao<Admininfo>{
 	private static final Logger logger = Logger.getLogger(LoginDaoImpl.class);
 	@Resource(name="mysqlhibernateTemplete")
 	private HibernateTemplate mysqlhibernateTemplete;
-	
-	
-
-	
-
 	@Override
 	public void update(Admininfo admininfo) {
 		// TODO Auto-generated method stub
@@ -78,5 +76,13 @@ public class LoginDaoImpl implements ICommonUserDao<Admininfo>{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
+	public List<Admininfo> selectByPrimaryKey(Integer id, Integer shopId) {
+		// TODO Auto-generated method stub
+		return mysqlhibernateTemplete.find("from Admininfo where adminId = " + id + " and shopId=" + shopId);
+	}
+	public List<Admininfo> findAllUserByShopId(Integer shopId) {
+		// TODO Auto-generated method stub
+		return mysqlhibernateTemplete.find("from Admininfo where adminStatus=1 and shopId=" + shopId);
+	}
 }

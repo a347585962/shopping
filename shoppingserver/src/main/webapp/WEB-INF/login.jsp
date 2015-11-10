@@ -24,7 +24,7 @@
 	<link href="<%=basePath%>media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 	<link href="<%=basePath%>media/css/style.css" rel="stylesheet" type="text/css"/>
 	<link href="<%=basePath%>media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=basePath%>media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+	
 	<!-- END GLOBAL MANDATORY STYLES -->
 	<!-- BEGIN PAGE LEVEL STYLES -->
     <link href="<%=basePath%>media/css/login-soft.css" rel="stylesheet" type="text/css"/>
@@ -33,17 +33,18 @@
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="login">
+<body class="login" style='background-color: #fff;'>
 	<!-- BEGIN LOGO -->
-	<div class="logo">
+	<div class="logo" style='margin-left:200px;margin-top:10px;margin-bottom:10px;'>
 		<img src="<%=basePath%>media/image/logo.png" alt="" />
 	</div>
 	<!-- END LOGO -->
 	<!-- BEGIN LOGIN -->
-	<div class="content">
+	<div style="background-color:  rgba(12, 23, 36, 1) !important;padding-top:30px;padding-bottom:80px;">
+	<div class="content" style="margin-right:150px;background-color: #990000;">
 		<!-- BEGIN LOGIN FORM -->
 		<form class="form-vertical login-form" action="<%=basePath %>login" method="POST">
-			<h3 class="form-title">登录你的账号</h3>        
+			<h3 class="form-title" style='text-align: '>登录你的账号</h3>        
             <!-- 提示信息 -->
 			<div class="alert alert-error hide">
 				<button class="close" data-dismiss="alert"></button>
@@ -69,12 +70,12 @@
 				</div>
 			</div>
 			<div class="form-actions">
-				<label class="checkbox">
+				<label class="checkbox" style='margin-left:20px;'>
 			<input type="checkbox" name="remember" value="1"/> 记住账号
 
 				</label>
 
-				<input type="submit" class="btn blue pull-right" value='登录 '>
+				<input type="submit" class="btn-info span2 blue pull-right" style="margin-right:-15px;" value='登录 '>
 
 				<i class="m-icon-swapright m-icon-white"></i>
 
@@ -82,7 +83,7 @@
 
 			</div>
             
-			<div class="forget-password">
+			<div class="forget-password" style='margin-left: auto;margin-right: auto;text-align: center;'>
 
 				<h4>忘记密码了吗 ?</h4>
 
@@ -158,6 +159,7 @@
 
 		
 	</div>
+	</div>
 
 	<!-- END LOGIN -->
 
@@ -165,7 +167,7 @@
 
 	<div class="copyright">
 
-		2015 &copy; 南瑞集团公司
+		2015 &copy; 群祥超市
 
 	</div>
 
@@ -217,7 +219,7 @@
 		   // initiate layout and plugins
 
 		   App.init();
-		   Login.init();
+		  // Login.init();
 
 		});
 

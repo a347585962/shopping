@@ -17,7 +17,25 @@ public class Level1 implements java.io.Serializable {
 	private Integer level1Id;
 	private String level1Name;
 	private String level1Img;
+	private Integer shopId;
+	private Integer level1Status;
 	
+	public Integer getLevel1Status() {
+		return level1Status;
+	}
+
+	public void setLevel1Status(Integer level1Status) {
+		this.level1Status = level1Status;
+	}
+
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
 	public String getLevel1Img() {
 		return level1Img;
 	}

@@ -88,7 +88,15 @@
 									
 									
 							</c:forEach>
-
+							<script type="text/javascript">
+							jQuery(function(){
+								 var pagecount = $("#pagecount").val();
+								   var pagenow = $("#pagenow").val();
+								   var basePath = $("#url_base").val();
+								   var burl = basePath + "log/look/";
+								   getPage(pagecount, pagenow, 10, burl);
+							});
+							</script>
 						</c:when>
 					</c:choose>
 				</table>
@@ -99,14 +107,6 @@
 	  
 	</div>
 </div>
-<script type="text/javascript">
-jQuery(function(){
-	 var pagecount = $("#pagecount").val();
-	   var pagenow = $("#pagenow").val();
-	   var basePath = $("#url_base").val();
-	   var burl = basePath + "log/look/";
-	   getPage(pagecount, pagenow, 10, burl);
-});
-</script>
+
 </body>
 </html>

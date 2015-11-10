@@ -52,22 +52,26 @@ public class OrderManagerController {
 	private String SENDSTATUS;
 	Integer SEARCHROWCOUNT;
 	@RequestMapping("/manager/{pagenow}")
-	public String manager(ModelMap modelMap,@PathVariable("pagenow") Integer pageNow)
+	public String manager(ModelMap modelMap,
+			@PathVariable("pagenow") Integer pageNow, HttpSession session)
 	{
 		int pagesize = 5;
 		pagenow = pageNow == null ? 1: pageNow;
-		List<Orderinfo> orderinfos = orderService.findOrder(pagenow, pagesize);
-		Integer pagecount = orderService.findOrderSize();
-		//logger.info("oreder = " + orderinfos);
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+		List<Orderinfo> orderinfos = orderService.findOrder(pagenow, pagesize, shopId);
+		Integer pagecount = orderService.findShopOrderSizeByShopId(shopId);
+		//logger.info("oreder = " + orderinfos + ",pagecount = " + ((pagecount % pagesize) == 0?(pagecount / pagesize) : ((pagecount / pagesize) + 1)));
 		modelMap.addAttribute("orders", orderinfos); 
 		
 		modelMap.addAttribute("pagecount", (pagecount % pagesize) == 0?(pagecount / pagesize) : ((pagecount / pagesize) + 1));
 		modelMap.addAttribute("pagenow", pagenow);
+		
 		path = PathUtil.setPathParams(new String[]{"PackageName:OrderManager","ViewName:OrderManager","ViewTitle:群祥订单管理", "smenu:" + sMenu ,"mmenu:mag" });					
     	return PathUtil.returnStr(path, modelMap);
 	}
 	@RequestMapping("/search")
-	public String Search(ModelMap modelMap, String type, String searchValue)
+	public String Search(ModelMap modelMap, String type, String searchValue
+			,HttpSession session)
 	{
 		//logger.info(type + "," + searchValue) ;
 		Integer typeId = type == null?null:Integer.parseInt(type);
@@ -88,7 +92,8 @@ public class OrderManagerController {
 			default:
 				break;
 			}
-			List<Orderinfo> orderinfos = orderService.findBySearch(searchValue, searchName);
+			Integer shopId = CommonUtil.getInstance().getShopId(session);
+			List<Orderinfo> orderinfos = orderService.findBySearch(searchValue, searchName, shopId);
 			//logger.info(String.valueOf(orderinfos));
 			modelMap.addAttribute("orders", orderinfos);
 		}
@@ -105,8 +110,10 @@ public class OrderManagerController {
 	 * @return 管理界面
 	 */
 	@RequestMapping("/update")
-	public String update(@RequestParam("ordid")Integer orderid, @RequestParam(value = "adress", required = false)String address, 
-			 @RequestParam(value = "money", required = false)String money, HttpSession httpSession, HttpServletRequest request)
+	public String update(@RequestParam("ordid")Integer orderid, 
+			@RequestParam(value = "adress", required = false)String address, 
+			 @RequestParam(value = "money", required = false)String money,
+			 HttpSession httpSession, HttpServletRequest request)
 	{
 		logger.info("orderid = " + orderid + ",address = " + address + ",money = " + money);
 		Orderinfo orderinfo = orderService.findById(orderid);
@@ -118,7 +125,8 @@ public class OrderManagerController {
 		String ip = StringUtil.getInstance().getIp(request);
 		Object object = httpSession.getAttribute("admin");
 		Admininfo admin = object == null? null:(Admininfo)object;
-		CommonUtil.getInstance().saveLog("更新订单信息，订单id=" + orderinfo.getOrderId() + ",订单对象order=" + orderinfo.toString(), ip, admin == null?null:admin.getAdminId(), logService);
+		CommonUtil.getInstance().saveLog("更新订单信息，订单id=" + orderinfo.getOrderId() + ",订单对象order=" + orderinfo.toString(), 
+				ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
     	return "forward:/order/manager/1";
 	}
 	@RequestMapping("/orderconfirm_{pagenow}/{orderId}")
@@ -179,11 +187,12 @@ public class OrderManagerController {
 			PAYSTATUS = orderpaystatus;
 			
 		}
-		SEARCHROWCOUNT = orderService.sizeofAllSearch(ORDERID, USERNAME, SENDSTATUS, PAYSTATUS);
+		Integer shopId = CommonUtil.getInstance().getShopId(httpSession);
+		SEARCHROWCOUNT = orderService.sizeofAllSearch(ORDERID, USERNAME, SENDSTATUS, PAYSTATUS, shopId );
 		//logger.info(SEARCHROWCOUNT);
 		SEARCHPAGENOW = (pageNow == null || pageNow == 0)?1:pageNow;
 		int pagesize = 5;
-	    List<Orderinfo> orderinfos = orderService.searchByMap(ORDERID, USERNAME, SENDSTATUS, PAYSTATUS, SEARCHPAGENOW, pagesize);
+	    List<Orderinfo> orderinfos = orderService.searchByMap(ORDERID, USERNAME, SENDSTATUS, PAYSTATUS, SEARCHPAGENOW, pagesize, shopId);
 		modelMap.addAttribute("pagecount", (SEARCHROWCOUNT % pagesize) == 0?(SEARCHROWCOUNT / pagesize) : ((SEARCHROWCOUNT / pagesize) + 1));
 		modelMap.addAttribute("pagenow", SEARCHPAGENOW);
 		modelMap.addAttribute("orders", orderinfos);

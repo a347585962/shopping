@@ -31,11 +31,9 @@ div#rMenu ul li {
 </head>
 <body>
 	<div class="body" style="margin: 15px;">
-		<span style="font-size:20px;color:#414451;">商品管理-商品类别管理</span>
+		<span style="font-size: 20px; color: #414451;">商品管理-商品类别管理</span>
 		<div class="">
-			<div class="head">
-				
-			</div>
+			<div class="head"></div>
 
 			<div class="table"
 				style="border: 2px solid #82aec0; height: 800px; margin-top: 15px;">
@@ -44,7 +42,7 @@ div#rMenu ul li {
 					<div class="zTreeDemoBackground left">
 						<ul id="treeDemo" class="ztree"></ul>
 					</div>
-					
+
 				</div>
 				<div id="rMenu">
 					<ul>
@@ -57,8 +55,19 @@ div#rMenu ul li {
 				</div>
 			</div>
 		</div>
+		<div class="right span8"
+			style='background-color: #fff; margin-top: 20px; height: 600px;'>
+			<table class="table table-hover" id='treeRight'>
+				<thead>
+					<tr>
+						<td>文件名</td>
+						<td>文件路径</td>
+					</tr>
+				</thead>
+			</table>
+		</div>
 	</div>
-	
+
 	<!-- Modal -->
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -68,14 +77,14 @@ div#rMenu ul li {
 			<h3 id="myModalLabel">模式对话框</h3>
 		</div>
 		<div class="modal-body">
-			<form id='addclassform' class="form-horizontal" 
-			action="<%=basePath %>goodsclass/add" 
-			 method="post" enctype="multipart/form-data">
+			<form id='addclassform' class="form-horizontal"
+				action="<%=basePath %>goodsclass/add" method="post"
+				enctype="multipart/form-data">
 				<div class="control-group">
 					<label class="control-label" for="inputEmail">节点id</label>
 					<div class="controls">
-						<input type="text" id="parentId" name="id"
-							placeholder="父节点id" disabled="true">
+						<input type="text" id="parentId" name="id" placeholder="父节点id"
+							disabled="true">
 					</div>
 				</div>
 				<div class="control-group">
@@ -93,9 +102,7 @@ div#rMenu ul li {
 				</div>
 				<div class="control-group" id='imgdiv'>
 					<font color="red">你添加了的图片：</font> <br>
-					<div class="span6 controls" id="photo">
-							
-						</div>
+					<div class="span6 controls" id="photo"></div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
@@ -110,19 +117,19 @@ div#rMenu ul li {
 			<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	</div>
-	
+
 	<!-- Modal -->
-	<div id="updateModal" class="modal hide fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div id="updateModal" class="modal hide fade" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true">×</button>
 			<h3 id="myModalLabel">模式对话框</h3>
 		</div>
 		<div class="modal-body">
-		<form id='addclassform' class="form-horizontal" 
-			action="<%=basePath %>goodsclass/update" 
-			 method="post" enctype="multipart/form-data">
+			<form id='addclassform' class="form-horizontal"
+				action="<%=basePath %>goodsclass/update" method="post"
+				enctype="multipart/form-data">
 				<div class="control-group">
 					<label class="control-label" for="inputEmail">节点id</label>
 					<div class="controls">
@@ -146,10 +153,10 @@ div#rMenu ul li {
 				<div class="control-group" id='imgdiv'>
 					<font color="red">你添加了的图片：</font> <br>
 					<div class="span6 controls" id="photo1">
-							<img alt="" src="" id='imgshow' width="100" height="80">
-						</div>
+						<img alt="" src="" id='imgshow' width="100" height="80">
+					</div>
 				</div>
-				
+
 
 				<div class="control-group">
 					<div class="controls">
@@ -164,7 +171,7 @@ div#rMenu ul li {
 			<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	</div>
-	
+
 	<SCRIPT type="text/javascript">
 	<!--
 		var setting = {
@@ -175,10 +182,29 @@ div#rMenu ul li {
 				enable : true
 			},
 			callback : {
-				onRightClick : OnRightClick
+				onRightClick : OnRightClick,
+				onClick :click
 			}
 		};
-
+	function click(event, treeId, treeNode)
+	{
+		var html = "<thead><tr><td>文件名</td><td>文件路径</td></tr></thead>";
+		//alert(treeNode.children);
+		if ("" == treeNode.children || "undefined" == typeof(treeNode.children))
+		{
+			//$(".right").hide(); 
+			$("#treeRight").html(html);
+			return;
+		}
+		for(var i=0;i<treeNode.children.length;i++) {
+		    var childNode = treeNode.children[i];
+		    //alert('childNode.name: '+childNode.name);
+		    html += "<tr><td>" + childNode.name +"</td><td>" + childNode.id +"</td>" + "</tr>" 
+		}
+		
+		$("#treeRight").html(html);
+		//$(".right").show();
+	}
 		var zNodes = ${levelsJson};
 		//var zNodes ;
 		//alert(zNodes);
@@ -345,6 +371,7 @@ div#rMenu ul li {
 		};
 	//-->
 	</SCRIPT>
-	<script src="<%=basePath%>media/js/goodsclass.js" type="text/javascript"></script>
+	<script src="<%=basePath%>media/js/goodsclass.js"
+		type="text/javascript"></script>
 </body>
 </html>

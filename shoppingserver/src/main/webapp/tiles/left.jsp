@@ -32,6 +32,7 @@
 					<li><a href="<%=basePath %>goodsmanager/addview">商品上线管理</a></li>
 					<li><a href="<%=basePath %>goodsmanager/goodsinfoview/1"> 商品信息管理</a></li>
 					<li><a href="<%=basePath %>goodsclass/goodsclassmagview"> 商品类别管理</a></li>
+					<li><a href="<%=basePath %>property/show"> 商品属性管理</a></li>
 				</ul>
 			</li>
 			
@@ -58,11 +59,22 @@
 			<li class="" id='user'><a href="javascript:;"> <i class="icon-user"></i>
 					<span class="title">用户管理</span> <span class="arrow "></span>
 			</a>
-				<ul class="sub-menu">				
-					<li><a href="<%=basePath %>user/usermag"
+				<ul class="sub-menu">	
+				    <c:if test="${admin.shopId != 0 }">
+				      <li><a href="<%=basePath %>user/usermag"
 						> 用户查看</a></li>
+				    </c:if>
+				    <c:if test="${admin.shopId == 0 }">
+				      <li><a href="<%=basePath %>user/allusermag"
+						> 用户查看</a></li>
+				    </c:if>			
+					
 					<li><a href="<%=basePath %>log/look/1"
 						> 日志查看</a></li>
+					<c:if test="${admin.shopId == 0 }">
+					  <li><a href="<%=basePath %>user/shopmag"
+						> 商家管理</a></li>
+					</c:if>
 				</ul></li>
 			
 			<li class="" id='analysis'><a href="javascript:;"> <i class="icon-user"></i>

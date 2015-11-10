@@ -103,6 +103,14 @@ public class ActivityServiceImpl implements ICommonService<Activity> {
 		return null;
 	}
 
+	public Activity findById(Integer id, Integer shopId) {
+		// TODO Auto-generated method stub
+		if ( id != null && shopId != null)
+			return commonDao.findById(id, shopId);
+		logger.error("查询的activityid为null!");
+		return null;
+	}
+	
 	public List<Activity> findByType(Integer type)
 	{
 		List list = null;
@@ -111,5 +119,22 @@ public class ActivityServiceImpl implements ICommonService<Activity> {
 		else
 			logger.error("type为null!");
 		return list;
+	}
+	
+	public List<Activity> findByPage(int pagenow, int pagesize, Integer shopId) {
+		// TODO Auto-generated method stub
+		List<Activity> list =  commonDao.findByPage((pagenow - 1)  * pagesize, pagesize, shopId);
+		if (list != null)
+		{
+			for (int i = 0; i < list.size(); i++) {
+				Activity activity = list.get(i);
+				Integer type = activity.getActivityType();
+				Activitytype activitytype = activitytypeDao.findById(type);
+				activity.setActivityTypeO(activitytype);
+				list.set(i, activity);
+			}
+		}
+		return list;
+		
 	}
 }

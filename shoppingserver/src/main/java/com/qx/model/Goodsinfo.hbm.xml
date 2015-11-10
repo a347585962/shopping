@@ -128,6 +128,6 @@
             </key>
             <one-to-many class="com.qx.model.Favoriteinfo" />
         </set>
-        
+        <one-to-one name="shopgoods"  cascade="all" /> 
     </class>
 </hibernate-mapping>

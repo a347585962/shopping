@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,6 +15,7 @@ import com.mc.model.Path;
 import com.qx.model.Goodsinfo;
 import com.qx.model.Userinfo;
 import com.qx.service.IOrderService;
+import com.qx.utils.CommonUtil;
 import com.qx.utils.JsonParserUtil;
 import com.qx.utils.PathUtil;
 
@@ -29,9 +32,10 @@ public class SalesAnalysisController {
 	@Autowired
 	private IOrderService orderService;
 	@RequestMapping("/toptenperson")
-	public String toptenperson(ModelMap modelMap)
+	public String toptenperson(ModelMap modelMap, HttpSession session)
 	{
-	    List<Userinfo> userinfos = orderService.topTenPerson(null, null);
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+	    List<Userinfo> userinfos = orderService.topTenPerson(null, null, shopId);
 	    String jsonData = JsonParserUtil.getInstance().ParseListToJSON(userinfos);
 	    logger.info(jsonData);
 	    modelMap.addAttribute("jsonData", jsonData);
@@ -39,9 +43,10 @@ public class SalesAnalysisController {
 		return PathUtil.returnStr(path, modelMap);
 	}
 	@RequestMapping("/toptengoods")
-	public String toptengoods(ModelMap modelMap)
+	public String toptengoods(ModelMap modelMap, HttpSession session)
 	{
-	    List<Goodsinfo> goodsinfos = orderService.topTenGoods(null, null);
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+	    List<Goodsinfo> goodsinfos = orderService.topTenGoods(null, null, shopId);
 	    String jsonData = JsonParserUtil.getInstance().ParseListToJSON(goodsinfos);
 	    logger.info(jsonData);
 	    modelMap.addAttribute("jsonData", jsonData);

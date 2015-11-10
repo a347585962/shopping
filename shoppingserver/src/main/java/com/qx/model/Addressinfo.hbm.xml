@@ -18,5 +18,8 @@
                 <comment>&#181;&#216;&#214;&#183;&#195;&#251;&#179;&#198;</comment>
             </column>
         </property>
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id" />
+        </property>
     </class>
 </hibernate-mapping>

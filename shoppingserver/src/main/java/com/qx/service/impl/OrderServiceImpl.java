@@ -136,9 +136,9 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public List<Userinfo> topTenPerson(Date start, Date end) {
+	public List<Userinfo> topTenPerson(Date start, Date end, Integer shopId) {
 		// TODO Auto-generated method stub
-		List list = orderDao.topTenPerson(start, end);
+		List list = orderDao.topTenPerson(start, end, shopId);
 		for (int i = 0; i < list.size(); i++) {
 			Object[] objs = (Object[]) list.get(i);
 			
@@ -152,9 +152,9 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public List<Goodsinfo> topTenGoods(Date start, Date end) {
+	public List<Goodsinfo> topTenGoods(Date start, Date end, Integer shopId) {
 		// TODO Auto-generated method stub
-		return orderDao.topTenGoods(start, end);
+		return orderDao.topTenGoods(start, end, shopId);
 	}
 
 	@Override
@@ -202,6 +202,46 @@ public class OrderServiceImpl implements IOrderService {
 		else {
 			logger.error("子订单对象集合为null");
 		}
+	}
+
+	@Override
+	public List<Orderinfo> findOrder(int pagenow, int size, Integer shopId) {
+		// TODO Auto-generated method stub
+		int start = (pagenow - 1) * size;
+		return orderDao.findOrder(start, size, shopId);
+	}
+
+	@Override
+	public int findShopOrderSizeByShopId(Integer shopId) {
+		// TODO Auto-generated method stub
+		return orderDao.findShopOrderSizeByShopId(shopId);
+	}
+
+	@Override
+	public List<Orderinfo> findBySearch(Object searchKey, String searchName,
+			Integer shopId) {
+		// TODO Auto-generated method stub
+		return orderDao.findBySearch(searchKey, searchName, shopId);
+	}
+
+	@Override
+	public int sizeofAllSearch(String orderid, String username,
+			String ordersendstatus, String orderpaystatus, Integer shopId) {
+		// TODO Auto-generated method stub
+		Map<String, Object> parameters = setSearchParameters(orderid, username,
+				ordersendstatus, orderpaystatus);
+		return orderDao.sizeofAllSearch(parameters);
+	}
+
+	@Override
+	public List<Orderinfo> searchByMap(String orderid, String username,
+			String ordersendstatus, String orderpaystatus, int pagenow,
+			int pagesize, Integer shopId) {
+		// TODO Auto-generated method stub
+		Map<String, Object> parameters = setSearchParameters(orderid, username,
+				ordersendstatus, orderpaystatus);
+		return orderDao.searchByMap(parameters,
+				(pagenow - 1) * pagesize, pagesize, shopId);
 	}
 
 }

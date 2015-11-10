@@ -70,4 +70,43 @@ public class LogDaoImpl implements ILogDao {
 		return mysqlhibernateTemplete.find("from Loginfo where logId=" + id);
 	}
 
+	@Override
+	public List<Loginfo> findByPage(final int start, final int size, Integer shopId) {
+		// TODO Auto-generated method stub
+		final String hql = "from Loginfo where shopId=" + shopId 
+		+ " order by logTime desc";
+        List list = mysqlhibernateTemplete.executeFind(new HibernateCallback<Object>() {
+
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				// TODO Auto-generated method stub
+				Query query = session.createQuery(hql);
+				query.setFirstResult(start);
+				query.setMaxResults(size);
+				List result = query.list();
+				//logger.info("list = " + result);
+				return result;
+			}
+		});
+        //logger.info(list);
+		return list;
+	}
+
+	@Override
+	public List<Loginfo> selectByPrimaryId(Integer id, Integer shopId) {
+		// TODO Auto-generated method stub
+		return mysqlhibernateTemplete.find("from Loginfo where logId=" + id + " and shopId=" + shopId);
+	}
+
+	@Override
+	public int findLogSize(Integer shopId) {
+		// TODO Auto-generated method stub
+		String hql = "select count(*) from Loginfo where shopId=" + shopId;
+		Object o = mysqlhibernateTemplete.find(hql)
+				.listIterator().next();
+		Integer count = Integer.parseInt(o == null ?"0":o.toString());
+		return count.intValue();
+	}
+
 }

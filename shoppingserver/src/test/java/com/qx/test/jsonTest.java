@@ -79,7 +79,8 @@ public class jsonTest {
 
 	@Test      
 	public void testjson() throws Exception {
-		List<Level1> list = levelOneService.findAllLevelOne();
+		//List<Level1> list = levelOneService.findAllLevelOne();
+		List<Level1> list = null;
 		logger.info("list = " + String.valueOf(list));
 		// list转换成JSON字符串
 		//jsonGenerator.writeObject(list);
@@ -140,7 +141,8 @@ public class jsonTest {
 		bean.setLevel1Name("123");
 		//List<Level1> level1s = new Arra
 		StringWriter writer = new StringWriter();
-		List<Level1> list = levelOneService.findAllLevelOne();
+//		List<Level1> list = levelOneService.findAllLevelOne();
+		List<Level1> list = null;
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonGenerator jsonGenerator = objectMapper.getJsonFactory().createJsonGenerator(
 				writer);

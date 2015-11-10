@@ -18,7 +18,25 @@ public class Level2 implements java.io.Serializable {
 	private Level1 level1;
 	private String level2Name;
 	private String level2Img;
+	private Integer shopId;
+	private String level2Status;
 	
+	public String getLevel2Status() {
+		return level2Status;
+	}
+
+	public void setLevel2Status(String level2Status) {
+		this.level2Status = level2Status;
+	}
+
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
 	public String getLevel2Img() {
 		return level2Img;
 	}

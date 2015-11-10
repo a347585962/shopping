@@ -18,6 +18,15 @@
                 <comment></comment>
             </column>
         </property>
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id" />
+        </property>
+        <property name="level1Status" type="java.lang.Integer">
+            <column name="level1_status">
+                <comment>
+                &#210;&#187;&#188;&#182;&#183;&#214;&#192;&#224;&#215;&#180;&#204;&#172;&#163;&#172;1&#180;&#250;&#177;&#237;&#188;&#164;&#187;&#238;&#163;&#172;0&#180;&#250;&#177;&#237;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
         <set name="level2s" table="level_2" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="Level1_ID">

@@ -18,5 +18,11 @@
                 <comment></comment>
             </column>
         </property>
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id" />
+        </property>
+        <property name="activitytypeStatus" type="java.lang.Integer">
+            <column name="activitytype_status" />
+        </property>
     </class>
 </hibernate-mapping>

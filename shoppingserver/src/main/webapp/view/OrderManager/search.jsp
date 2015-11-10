@@ -63,7 +63,7 @@
 							<button type="submit" class="btn btn-info">查&nbsp;&nbsp;&nbsp;找</button>
 						</form>
 			</div>
-			
+			<c:if test="${not empty orders }">
 			<div class="table"
 				style="border: 1px solid; height: 800px; margin-top: 15px;">
 				<table class="td-void order-tb">
@@ -275,22 +275,26 @@
 						</tbody>
 					</c:forEach>
 				</table>
-
+				<script type="text/javascript">
+				jQuery(function(){
+					 var pagecount = $("#pagecount").val();
+					   var pagenow = $("#pagenow").val();
+					   var basePath = $("#url_base").val();
+					   var burl = basePath + "order/search/";
+					   //alert(pagenow + "," + pagecount);
+					   getPage(pagecount, pagenow, 10, burl);
+				});
+				</script>
 				<div id="page" class='container'></div>
 			</div>
+			</c:if>
+			<c:if test="${empty orders }">
+			   <span>亲！没有您找的订单哦！请换换搜索方式。</span>
+			</c:if>
 			<input type="hidden" id="pagecount" value="${pagecount }"> <input
 				type="hidden" id="pagenow" value="${pagenow }">
 		</div>
 	</div>
-<script type="text/javascript">
-jQuery(function(){
-	 var pagecount = $("#pagecount").val();
-	   var pagenow = $("#pagenow").val();
-	   var basePath = $("#url_base").val();
-	   var burl = basePath + "order/search/";
-	   //alert(pagenow + "," + pagecount);
-	   getPage(pagecount, pagenow, 10, burl);
-});
-</script>
+
 </body>
 </html>

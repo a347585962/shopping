@@ -44,7 +44,16 @@ public class Goodsinfo implements java.io.Serializable {
 	private String barCode;
 	private String remark;
 	private Integer sumsalesrate;
+	private Shopgoods shopgoods;
 	
+	public Shopgoods getShopgoods() {
+		return shopgoods;
+	}
+
+	public void setShopgoods(Shopgoods shopgoods) {
+		this.shopgoods = shopgoods;
+	}
+
 	public Integer getSumsalesrate() {
 		return sumsalesrate;
 	}
@@ -304,8 +313,10 @@ public class Goodsinfo implements java.io.Serializable {
 				+ ", goodsUntis=" + goodsUntis + ", productAddress="
 				+ productAddress + ", updateTime=" + updateTime + ", photoUrl="
 				+ photoUrl + ", goodsStock=" + goodsStock + ", goodsPrice4="
-				+ goodsPrice4 + ", activityId=" + activityId + ", barCode="
-				+ barCode + ", status=" + status + ",sumsalesrate = " + sumsalesrate +  "]";
+				+ goodsPrice4 + ", barCode=" + barCode + ", remark=" + remark
+				+ ", sumsalesrate=" + sumsalesrate + ", status=" + status + "]";
 	}
+
+	
 
 }

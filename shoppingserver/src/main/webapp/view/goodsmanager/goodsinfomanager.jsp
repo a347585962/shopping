@@ -133,36 +133,34 @@
 								<tr class='discuss'>
 									<td class="content_td1 ">
 										<div class='newsTitle1'>
-											<a title='${goodsinfo.goodsId}' href="<%=basePath%>goodsmanager/updateview/${goodsinfo.goodsId}"> <span>${goodsinfo.goodsId}</span>
+											<a title='${goodsinfo.shopgoodsId}' href="<%=basePath%>goodsmanager/updateview/${goodsinfo.shopgoodsId}"> <span>${goodsinfo.shopgoodsId}</span>
 											</a>
 										</div>
 									</td>
-									<td class="content_td2 "><a href="<%=basePath%>goodsmanager/updateview/${goodsinfo.goodsId}"><span>${goodsinfo.goodsName}</span></a>
+									<td class="content_td2 "><a href="<%=basePath%>goodsmanager/updateview/${goodsinfo.shopgoodsId}"><span>${goodsinfo.goodsinfo.goodsName}</span></a>
 									</td>
-									<td class="content_td2 "><span>${goodsinfo.goodsPriceIn}</span></td>
-									<!-- <td class="content_td2 "><span>${goodsinfo.goodsClass1}</span></td>
-									<td class="content_td2 "><span>${goodsinfo.goodsClass2}</span> -->
+									<td class="content_td2 "><span>${goodsinfo.goodsinfo.goodsPriceIn}</span></td>
+									
+									<td class="content_td2 "><span>${goodsinfo.goodsinfo.goodsClass3}</span></td>
+									<td class="content_td2 "><span>${goodsinfo.goodsinfo.goodsType}</span></td>
+									<td class="content_td2 "><span>${goodsinfo.goodsinfo.goodsUntis}</span>
 									</td>
-									<td class="content_td2 "><span>${goodsinfo.goodsClass3}</span></td>
-									<td class="content_td2 "><span>${goodsinfo.goodsType}</span></td>
-									<td class="content_td2 "><span>${goodsinfo.goodsUntis}</span>
-									</td>
-									<td class="content_td2 "><span><fmt:formatDate value="${goodsinfo.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
+									<td class="content_td2 "><span><fmt:formatDate value="${goodsinfo.date}" pattern="yyyy-MM-dd" /></span></td>
 									<td class="content_td5">
 										 
-								<button  url="<%=basePath %>goodsmanager/delete/${goodsinfo.goodsId }"  style='width:60px;'
+								<button  url="<%=basePath %>goodsmanager/delete/${goodsinfo.shopgoodsId }"  style='width:60px;'
 								backurl="<%=basePath %>goodsmanager/goodsinfoview/1" class='del btn btn-danger'>删除</button>|
-								  <c:if test="${goodsinfo.status == 1}">
-								 <button  url="<%=basePath %>goodsmanager/down/${goodsinfo.goodsId }" 
+								  <c:if test="${goodsinfo.shopgoodsStatus == 1}">
+								 <button  url="<%=basePath %>goodsmanager/down/${goodsinfo.shopgoodsId }" 
 								 backurl="<%=basePath %>goodsmanager/goodsinfoview/1" class='down btn btn-danger'>下架</button>
 								 
 								 </c:if>
-								 <c:if test="${goodsinfo.status == 0}">
-								 <a  url="<%=basePath %>goodsmanager/up/${goodsinfo.goodsId }" 
+								 <c:if test="${goodsinfo.shopgoodsStatus == 0}">
+								 <a  url="<%=basePath %>goodsmanager/up/${goodsinfo.shopgoodsId}" 
 								 backurl="<%=basePath %>goodsmanager/goodsinfoview/1" class='up btn btn-danger'>上架</a>
 								 
 								 </c:if>
-								  |	  <a href='<%=basePath%>goodsmanager/updateview/${goodsinfo.goodsId}'
+								  |	  <a href='<%=basePath%>goodsmanager/updateview/${goodsinfo.shopgoodsId}'
 										style='width: 40px;' class="update btn btn-warning"> 修改 </a> <!-- Modal -->
 
 									</td>

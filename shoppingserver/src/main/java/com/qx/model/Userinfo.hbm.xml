@@ -49,6 +49,15 @@
                 <comment>&#211;&#195;&#187;&#167;&#196;&#172;&#200;&#207;&#185;&#186;&#194;&#242;&#183;&#189;&#202;&#189;</comment>
             </column>
         </property>
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id" />
+        </property>
+        <property name="userStatus" type="string">
+            <column name="user_status">
+                <comment>
+                &#211;&#195;&#187;&#167;&#215;&#180;&#204;&#172;&#163;&#172;1&#180;&#250;&#177;&#237;&#188;&#164;&#187;&#238;&#163;&#172;0&#180;&#250;&#177;&#237;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
         <set name="favoriteinfos" table="favoriteinfo" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="UserID" not-null="true">

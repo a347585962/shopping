@@ -21,6 +21,15 @@ public class Activity implements java.io.Serializable {
 	private Date activityStart;
 	private Date activityEnd;
 	private Integer activityStatus;
+	private Integer shopId;
+	
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
 
 	public Date getActivityStart() {
 		return activityStart;

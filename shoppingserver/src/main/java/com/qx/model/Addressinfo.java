@@ -10,6 +10,15 @@ public class Addressinfo implements java.io.Serializable {
 	private Integer addressId;
 	private String userId;
 	private String addressName;
+	private Integer shopId;
+	
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
 
 	public Addressinfo() {
 	}

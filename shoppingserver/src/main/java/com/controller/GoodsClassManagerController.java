@@ -52,9 +52,9 @@ public class GoodsClassManagerController {
 	private String sMenu = "goodsclass";
 	// 商品类别管理
 	@RequestMapping("/goodsclassmagview")
-	public String GoodsClassManager(ModelMap modelMap) {
-
-		String levelsJson = levelOneService.findAllLevelOne2Json();
+	public String GoodsClassManager(ModelMap modelMap, HttpSession session) {
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+		String levelsJson = levelOneService.findAllLevelOne2Json(shopId);
 		//logger.info(levelsJson);
 		modelMap.addAttribute("levelsJson", levelsJson);
 		// 根据字符串初始化Path类
@@ -73,6 +73,7 @@ public class GoodsClassManagerController {
 		Object object = httpSession.getAttribute("admin");
 		String imagePaths = FileUtil.getInstance().uploadFiels(files);
 		Admininfo admin = object == null? null:(Admininfo)object;
+		Integer shopId = CommonUtil.getInstance().getShopId(httpSession);
 		if (parentid != null && !parentid.isEmpty()) {
 			String[] parentIds = parentid.split("_");
 			Integer classType = Integer.parseInt(parentIds[0]);
@@ -83,23 +84,27 @@ public class GoodsClassManagerController {
 				Level2 level2 = new Level2();
 				level2.setLevel2Name(levelName);
 				Level1 level1 = levelOneService.findById(classId);
+				level2.setShopId(shopId);
 				level2.setLevel1(level1);
 				level2.setLevel2Img(imagePaths);
 				//logger.info(String.valueOf(level1));
 				//logger.info(String.valueOf(level2));
 				
 				level2 = levelTwoService.add(level2);
-				CommonUtil.getInstance().saveLog("添加二级分类，二级分类id=" + level2.getLevel2Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("添加二级分类，二级分类id=" + level2.getLevel2Id(),
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				break;
 			case 2:
 				Level3 level3 = new Level3();
 				Level2 level22 = levelTwoService.findById(classId);
 				level3.setLevel2(level22);
+				level3.setShopId(shopId);
 				level3.setLevel3Name(levelName);
 				level3.setLevel3Img(imagePaths);
 				//logger.info(String.valueOf(level3));
 				levelThreeService.add(level3);
-				CommonUtil.getInstance().saveLog("添加三级分类，三级分类id=" + level3.getLevel3Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("添加三级分类，三级分类id=" + level3.getLevel3Id(), 
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				
 				break;
 			case 3:
@@ -113,8 +118,10 @@ public class GoodsClassManagerController {
 			Level1 level1 = new Level1();
 			level1.setLevel1Name(levelName);
 			level1.setLevel1Img(imagePaths);
+			level1.setShopId(shopId);
 			levelOneService.add(level1 );
-			CommonUtil.getInstance().saveLog("添加一级分类，一级分类id=" + level1.getLevel1Id(), ip, admin == null?null:admin.getAdminId(), logService);
+			CommonUtil.getInstance().saveLog("添加一级分类，一级分类id=" + level1.getLevel1Id(), ip, 
+					admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 			
 		}
 		return "redirect:/goodsclass/goodsclassmagview";
@@ -138,16 +145,19 @@ public class GoodsClassManagerController {
 			case 1:
 				Level1 level1 = levelOneService.findById(classId);
 				levelOneService.delete(level1);
-				CommonUtil.getInstance().saveLog("删除一级分类，一级分类id=" + level1.getLevel1Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("删除一级分类，一级分类id=" + level1.getLevel1Id(), 
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				break;
 			case 2:
 				Level2 level2 = levelTwoService.findById(classId);
 				levelTwoService.delete(level2);
-				CommonUtil.getInstance().saveLog("删除二级分类，二级分类id=" + level2.getLevel2Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("删除二级分类，二级分类id=" + level2.getLevel2Id(), 
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				break;
 			case 3:
 				Level3 level3 = levelThreeService.findById(classId);
-				CommonUtil.getInstance().saveLog("删除三级分类，三级分类id=" + level3.getLevel3Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("删除三级分类，三级分类id=" + level3.getLevel3Id(), 
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				break;
 			default:
 				break;
@@ -181,7 +191,8 @@ public class GoodsClassManagerController {
 					level1.setLevel1Img(imagePaths);
 				logger.info(String.valueOf(level1));
 				levelOneService.update(level1);
-				CommonUtil.getInstance().saveLog("修改一级分类，一级分类id=" + level1.getLevel1Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("修改一级分类，一级分类id=" + level1.getLevel1Id(),
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				break;
 			case 2:
 				Level2 level22 = levelTwoService.findById(classId);
@@ -191,7 +202,8 @@ public class GoodsClassManagerController {
 					level22.setLevel2Img(imagePaths);
 				logger.info(String.valueOf(level22));
 				levelTwoService.update(level22);
-				CommonUtil.getInstance().saveLog("修改二级分类，二级分类id=" + level22.getLevel2Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("修改二级分类，二级分类id=" + level22.getLevel2Id()
+						, ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				break;
 			case 3:
 				Level3 level3 = levelThreeService.findById(classId);
@@ -201,7 +213,8 @@ public class GoodsClassManagerController {
 					level3.setLevel3Img(imagePaths);
 				logger.info(String.valueOf(level3));
 				levelThreeService.update(level3);
-				CommonUtil.getInstance().saveLog("修改三级分类，三级分类id=" + level3.getLevel3Id(), ip, admin == null?null:admin.getAdminId(), logService);
+				CommonUtil.getInstance().saveLog("修改三级分类，三级分类id=" + level3.getLevel3Id(),
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				break;
 			default:
 				break;

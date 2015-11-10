@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.qx.model.Goodsinfo;
+import com.qx.model.Shopgoods;
 
 public interface GoodsManagerDao {
 	/**
@@ -24,10 +25,24 @@ public interface GoodsManagerDao {
 	 */
 	public List<Goodsinfo> findByPage(final Integer start, final Integer size);
 	/**
+	 *  根据当前页和每页数量，查询商品信息集合
+	 * @param pagenow 当前页数
+	 * @param pagesize 每页数量
+	 * @param shopId 商家id
+	 * @return 商品信息集合
+	 */
+	public List<Goodsinfo> findByPage(final Integer start, final Integer size, Integer shopId);
+	/**
 	 *  查询当前商品总数目
 	 * @return 商品总数目
  	 */
 	public int sizeOfAll();
+	/**
+	 *  查询当前商品总数目
+	 *  @param shopId 商家id
+	 * @return 商品总数目
+ 	 */
+	public int sizeOfAll(Integer shopId);
 	/**
 	 *  根据商品id查询商品信息
 	 * @param goodsid 商品id
@@ -66,7 +81,8 @@ public interface GoodsManagerDao {
 	 * @param parameters 参数map
 	 * @return 商品集合
 	 */
-	public List<Goodsinfo> searchByMap(Map<String, Object> parameters, final int start, final int size);
+	public List<Shopgoods> searchByMap(Map<String, Object> parameters, final int start, final int size);
+	
 	/**
 	 *  根据传入的map查找返回的结果集合大小
 	 * @param parameters 参数

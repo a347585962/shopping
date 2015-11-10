@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-8 22:30:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Shop" table="shop" catalog="shopping">
+        <id name="shopId" type="java.lang.Integer">
+            <column name="shop_id" />
+            <generator class="identity" />
+        </id>
+        <property name="shopName" type="string">
+            <column name="shop_name">
+                <comment>&#201;&#204;&#188;&#210;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="shopPhone" type="string">
+            <column name="shop_phone">
+                <comment>&#201;&#204;&#188;&#210;&#193;&#170;&#207;&#181;&#183;&#189;&#202;&#189;</comment>
+            </column>
+        </property>
+        <property name="shopWeixin" type="string">
+            <column name="shop_weixin">
+                <comment>&#201;&#204;&#188;&#210;&#206;&#162;&#208;&#197;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="shopPeople" type="string">
+            <column name="shop_people">
+               
+            </column>
+        </property>
+        <property name="date" type="timestamp">
+            <column name="date" length="19">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="shopStatus" type="java.lang.Integer">
+            <column name="shop_status">
+                <comment>
+                &#201;&#204;&#188;&#210;&#215;&#180;&#204;&#172;&#163;&#172;1&#180;&#250;&#177;&#237;&#188;&#164;&#187;&#238;&#163;&#172;0&#180;&#250;&#177;&#237;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

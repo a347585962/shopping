@@ -92,14 +92,44 @@ public class ActivityDaoImpl implements ICommonDao<Activity> {
 	@Override
 	public Activity findById(Integer id) {
 		// TODO Auto-generated method stub
-		List list = mysqlhibernateTemplete.find("from Activity where activityId=" + id);
+		List list = mysqlhibernateTemplete.find("from Activity where activityId=" + id + " and activityStatus=1");
 		return (list == null || list.size() == 0) ? null : (Activity) list
 				.get(0);
 	}
 
+	public Activity findById(Integer id, Integer shopId) {
+		// TODO Auto-generated method stub
+		List list = mysqlhibernateTemplete.find("from Activity where activityId=" + id + " and shopId=" + 
+		shopId + "  and activityStatus=1");
+		return (list == null || list.size() == 0) ? null : (Activity) list
+				.get(0);
+	}
+	
 	public List<Activity> findByType(Integer type)
 	{
 		List list = mysqlhibernateTemplete.find("from Activity where activityType=" + type);
+		return list;
+	}
+	
+	public List<Activity> findByPage(final int start, final int size, Integer shopId) {
+		// TODO Auto-generated method stub
+		final String hql = "from Activity where shopId=" + shopId + " and activityStatus=1";
+		List list = mysqlhibernateTemplete
+				.executeFind(new HibernateCallback<Object>() {
+
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						// TODO Auto-generated method stub
+						Query query = session.createQuery(hql);
+						query.setFirstResult(start);
+						query.setMaxResults(size);
+						List result = query.list();
+						// logger.info("list = " + result);
+						return result;
+					}
+				});
+		// logger.info(list);
 		return list;
 	}
 }

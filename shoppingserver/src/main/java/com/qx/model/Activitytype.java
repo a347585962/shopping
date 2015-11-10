@@ -7,10 +7,32 @@ package com.qx.model;
  */
 public class Activitytype implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer activitytypeId;
 	private String activitytypeName;
     private String activitytypeNickname;
+    private Integer shopId;
+    private Integer activitytypeStatus;
     
+	public Integer getActivitytypeStatus() {
+		return activitytypeStatus;
+	}
+
+	public void setActivitytypeStatus(Integer activitytypeStatus) {
+		this.activitytypeStatus = activitytypeStatus;
+	}
+
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
 	public String getActivitytypeNickname() {
 		return activitytypeNickname;
 	}

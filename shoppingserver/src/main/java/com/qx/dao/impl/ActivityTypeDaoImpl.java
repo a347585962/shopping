@@ -67,5 +67,8 @@ public class ActivityTypeDaoImpl implements ICommonDao<Activitytype> {
 		List list = mysqlhibernateTemplete.find("from Activitytype where activitytypeId=" + id);
 		return (list == null || list.size() == 0)?null:(Activitytype)list.get(0);
 	}
-
+	public List<Activitytype> findAllByShopId(Integer shopId)
+	{
+		return mysqlhibernateTemplete.find("from Activitytype where shopId=" + shopId +" and activitytypeStatus=1");
+	}
 }

@@ -16,6 +16,15 @@ public class Pingjiainfo implements java.io.Serializable {
 	private Integer pingjiaStatus;
 	private String pingjiaContent;
 	private Date pingjiaTime;
+	private Integer shopId;
+	
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
 
 	public Pingjiainfo() {
 	}

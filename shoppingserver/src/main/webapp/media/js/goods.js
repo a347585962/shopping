@@ -46,12 +46,13 @@ jQuery(function(){
 			});
 		}
 	}
-	function getTwoClassInfo(id, secondId) {
+	function getTwoClassInfo(id, uri, secondId) {
 		var rID = "#" + id + "";
 		var secondID = "#" + secondId + "";
 		if ($(rID).val() != 0) {
 			provinceId = $(rID).val();
-			var uri = base_url + "/goodsmanager/" + secondId;
+			var uri = base_url + "/goodsmanager/" + uri;
+			//alert(uri);
 			//不能要dataType=json，不然解析不出来。。。。
 			$.ajax({
 				type : "POST",
@@ -74,12 +75,12 @@ jQuery(function(){
 			});
 		}
 	}
-	function getThreeInfo(id, secondId) {
+	function getThreeInfo(id, uri,secondId) {
 		var rID = "#" + id + "";
 		var secondID = "#" + secondId + "";
 		if ($(rID).val() != 0) {
 			provinceId = $(rID).val();
-			var uri = base_url + "/goodsmanager/" + secondId;
+			var uri = base_url + "/goodsmanager/" + uri;
 			//不能要dataType=json，不然解析不出来。。。。
 			$.ajax({
 				type : "POST",
@@ -104,11 +105,11 @@ jQuery(function(){
 	}
 	//getOneClassInfo("traderProvince", "traderSchool");
 	
-	  $("#levelone").change(function(){
-		  getTwoClassInfo("levelone", "leveltwo");
+	  $("#goodsClass1").change(function(){
+		  getTwoClassInfo("goodsClass1", "leveltwo","goodsClass2");
 	   });
-	  $("#leveltwo").change(function(){
-		  getThreeInfo("leveltwo", "levelthree");
+	  $("#goodsClass2").change(function(){
+		  getThreeInfo("goodsClass2", "levelthree", "goodsClass3");
 	   });
 	  $("#levelthree").change(function(){
 		  /*var levelone = $("#levelone").val();
@@ -176,12 +177,6 @@ $(document).ready(function() {
 			goodsClass1:  {
 				required:true,
 				min:1
-			}, goodsClass2:  {
-				required:true,
-				min:1
-			} , goodsClass3:  {
-				required:true,
-				min:1
 			}, goodsStock: {
 				required:true,
 				number:true
@@ -224,16 +219,9 @@ $(document).ready(function() {
 			} , goodsStock: {
 				required:"请填写商品库存",
 				number:"库存为数字整型"
-			} ,
-			goodsClass2:{
-				required:'请选择二级分类',
-				min:'请选择二级分类'
 			} , barCode:{
 				required: "请填写条形码"	
-			} , goodsClass3:{
-				required:'请选择三级分类',
-				min:'请选择三级分类'
-			}
+			} 
 		},
 		errorPlacement: function(error, element) {                             //错误信息位置设置方法  
 			 error.appendTo( element.parent().parent() );                            //这里的element是录入数据的对象  
@@ -276,15 +264,9 @@ $(document).ready(function() {
 			goodsClass1:  {
 				required:true,
 				min:1
-			}, goodsClass2:  {
-				required:true,
-				min:1
 			}, goodsStock: {
 				required:true,
 				number:true
-			}, goodsClass3:  {
-				required:true,
-				min:1
 			}, barCode:{
 				required: true	
 			},
@@ -327,14 +309,7 @@ $(document).ready(function() {
 			goodsClass1: {
 				required:'请选择一级分类',
 				min:'请选择一级分类'
-			},
-			goodsClass2:{
-				required:'请选择二级分类',
-				min:'请选择二级分类'
-			},goodsClass3:{
-				required:'请选择三级分类',
-				min:'请选择三级分类'
-			} , barCode:{
+			}, barCode:{
 				required: "请填写条形码"	
 			} ,
 			files: {
@@ -441,16 +416,6 @@ $(document).ready(function() {
     
 	});
 jQuery(function(){
-	  var levelone = $("#goodsoneclass").val();
-	  var leveltwo = $("#goodstwoclass").val();
-	  var levelthree =  $("#goodsthreeclass").val();
-	  var status = $("#goodsstatus").val();
-	  var activitytype = $("#activity_type").val();
-	  $("#activityId").val(activitytype);
-	  $("#goodsstatusselect").val(status);
-	  $("#levelone").val(levelone);
-	  $("#leveltwo").val(leveltwo);
-	  $("#levelthree").val(levelthree);
 	  var base_url = $("#url_base").val();
 	  $(".del").each(function(){
 	      	 $(this).click(function(){

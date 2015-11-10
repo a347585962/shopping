@@ -13,6 +13,33 @@ public class Admininfo implements java.io.Serializable {
 	private String password;
 	private Date registerTime;
 	private String userName;
+	private Integer shopId;
+	private Integer adminStatus;
+	private Shop shop;
+	
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
+	public Integer getAdminStatus() {
+		return adminStatus;
+	}
+
+	public void setAdminStatus(Integer adminStatus) {
+		this.adminStatus = adminStatus;
+	}
 
 	public Admininfo() {
 	}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -21,8 +22,12 @@
 
   }
   .total{
-     border:2px solid #82aec0;
+     margin-top:10px;
+     margin-left:0px;
      padding:25px;
+     background-color: #ddd;
+     padding:10px;
+     border: 1px dotted #414451;
   }
   hr{
      height:2px;
@@ -33,10 +38,11 @@
 </head>
 <body>
 	<div class="body container-fluid" style="margin: 15px;">
-		<span style="font-size:20px;color:#414451;">商品管理-商品上线管理</span>
+		<div style='text-align:center;'><span style="font-size:14px;color:#414451;text-align: center;">亲！添加商品哦。</span></div>
        <!--  <button id='import' class='btn btn-info'>批量导入</button>  -->
-     <div class='total' style='margin-top:10px;'>
-        <div class='row-fluid'>
+     <div class='total '> 
+     <div class='' style='margin-left:50px;' >
+        <div class=''>
         <!-- 
 				<div class='span12'>
 					<div class="ts">
@@ -90,30 +96,89 @@
 					<input type="hidden" name="goodsoneclass" id="goodsoneclass">
 					<input type="hidden" name="goodstwoclass" id="goodstwoclass">
 					<input type="hidden" name="goodsthreeclass" id="goodsthreeclass">
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="input-prepend">
-								<span class="add-on test" >商品名称</span> 
-								<input class="span2" style="width: 200px;" type="text" name="goodsName"
-									placeholder="商品名称" /> 
-								<span style="color: red; padding: 8px; "><font size="3px;">*</font></span>
-							</div>
+					<c:forEach begin="1" end="${fn:length(properties)}" step="2" varStatus="status">
+						<div class="row-fluid">
+						<c:forEach items="${properties }" var="property"
+						         begin="${(status.count-1)*2 }" end="${(status.count)*2-1 }" varStatus="status1" >
+									<c:if test="${fn:contains(fn:trim(property.propertyType), 'input')}">
+									  <c:if test="${!fn:contains(fn:trim(property.propertyName), 'photoUrl')}">
+										<div class="span6">
+											<div class="input-prepend">
+												<span class="add-on test">${property.propertyShowname}</span>
+												 <input class="span2" style="width: 200px;" type="text"
+													name="${property.propertyName }"
+													placeholder="${property.propertyShowname }" /> <span
+													style="color: red; padding: 8px;"><font size="3px;">*</font></span>
+											</div>
+										</div>
+										</c:if>
+									</c:if>
+									<c:if test="${fn:contains(fn:trim(property.propertyType), 'select')}">
+										<c:if test="${fn:contains(fn:trim(property.propertyName), 'activityId')}">
+											<div class="span6">
+												<div class="input-prepend">
+													<span class="add-on test">${property.propertyShowname}</span> 
+													<select
+														name="${property.propertyName }" id='${property.propertyName }' style="width: 200px;"><option
+															value="0">---请选择---</option>
+															<c:forEach items="${activities }" var="activity">
+													          <option value="${activity.activityId }">${activity.activityName}</option>
+										                    </c:forEach>	
+													</select> <span
+														style="color: red; padding: 8px;"><font size="3px;">*</font></span>
+												</div>
+											</div>
+										</c:if>
+										<c:if test="${!fn:contains(fn:trim(property.propertyName), 'activityId')}">
+										  <c:if test="${!fn:contains(fn:trim(property.propertyName), 'goodsClass1')}">
+											<c:if test="${!fn:contains(fn:trim(property.propertyName), 'status')}">
+												  <div class="span6">
+													<div class="input-prepend">
+														<span class="add-on test">${property.propertyShowname}</span> 
+														<select
+															name="${property.propertyName }" id='${property.propertyName }' style="width: 200px;"><option
+																value="0">---请选择---</option></select> <span
+															style="color: red; padding: 8px;"><font size="3px;">*</font></span>
+													</div>
+												</div>
+												</c:if>
+												<c:if test="${fn:contains(fn:trim(property.propertyName), 'status')}">
+												 <div class="span6">
+													<div class="input-prepend">
+														<span class="add-on test">${property.propertyShowname}</span> 
+														<select
+															name="${property.propertyName }" id='${property.propertyName }' style="width: 200px;">
+															<option
+																value="1">上架</option>
+																<option
+																value="0">暂不上架</option>
+																</select> <span
+															style="color: red; padding: 8px;"><font size="3px;">*</font></span>
+														</div>
+													</div>
+												</c:if>
+											
+											</c:if>
+											<c:if test="${fn:contains(fn:trim(property.propertyName), 'goodsClass1')}">
+											  <div class="span6">
+												<div class="input-prepend">
+													<span class="add-on test">${property.propertyShowname}</span> <select
+														name="${property.propertyName }" id='${property.propertyName }' style="width: 200px;"><option
+															value="0">---请选择---</option>
+															<c:forEach items="${level1s }" var="levelone">
+																<option value="${levelone.level1Id }">${levelone.level1Name}</option>
+															</c:forEach>
+														</select> <span
+														style="color: red; padding: 8px;"><font size="3px;">*</font></span>
+												</div>
+											</div>
+											</c:if>
+										</c:if>
+									</c:if>
+								</c:forEach>
 						</div>
-						<div class="span6">
-								<div class="input-prepend">
-									<span class="add-on test">一级分类</span> 
-									<select name="goodsClass1" id='levelone' style="width:200px;">
-						          <option value="0" >---请选择---</option>
-						          <c:forEach items="${level1s }" var="levelone">
-											<option value="${levelone.level1Id }">${levelone.level1Name}</option>
-										</c:forEach>
-						   </select>
-						    <span style="color: red; padding: 8px; "><font size="3px;">*</font></span>
-								</div>
-						</div>
-						
-					</div>
-					<div class="row-fluid">
+					</c:forEach>
+					<!-- <div class="row-fluid">
 					    <div class="span6">
 								<div class="input-prepend">
 									<span class="add-on test">条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</span> 
@@ -256,7 +321,7 @@
 							</div>
 					</div>
 					</div>
-					
+				 -->	
 				<div class="row-fluid" id='imgdiv'>
 				<div class='span6'>
 					<div class="span12" style='margin-left: 0px;'>
@@ -316,6 +381,7 @@
 			    style="width: 100px; margin-left: 20px;">批量导入</button>
 
 		</form>
+        </div>
         </div>
      </div>
 

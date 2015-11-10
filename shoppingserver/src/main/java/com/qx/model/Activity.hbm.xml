@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2015-9-8 9:22:50 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.qx.model.Activity" table="activity" catalog="shopping">
+    <class name="com.qx.model.Activity" table="activity">
         <id name="activityId" type="java.lang.Integer">
             <column name="activity_id" />
             <generator class="identity" />
@@ -40,7 +40,9 @@
         </property>
         <one-to-one name="activityTypeO" class="com.qx.model.Activitytype" lazy="false">      
         </one-to-one>
-       
+       <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id" />
+        </property>
         
     </class>
 </hibernate-mapping>

@@ -10,8 +10,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -35,13 +40,22 @@ import com.qx.model.Level1;
 import com.qx.model.Level2;
 import com.qx.model.Level3;
 import com.qx.model.Loginfo;
+import com.qx.model.Property;
+import com.qx.model.Propertyvalue;
+import com.qx.model.Shop;
+import com.qx.model.Shopgoods;
 import com.qx.service.GoodsManagerService;
 import com.qx.service.ICommonService;
 import com.qx.service.ILevelOneService;
 import com.qx.service.ILevelThreeService;
 import com.qx.service.ILevelTwoService;
 import com.qx.service.ILogService;
+import com.qx.service.impl.PropertyServiceImpl;
+import com.qx.service.impl.PropertyValueServiceImpl;
+import com.qx.service.impl.ShopGoodsServiceImpl;
+import com.qx.service.impl.ShopServiceImpl;
 import com.qx.utils.CommonUtil;
+import com.qx.utils.ConstantUtil;
 import com.qx.utils.FileUtil;
 import com.qx.utils.JsonParserUtil;
 import com.qx.utils.PathUtil;
@@ -73,6 +87,14 @@ public class GoodsManagerController {
 	private String sMenu = "goods";
 	@Resource(name="activityService")
 	private ICommonService<Activity> activityService;
+	@Resource(name="propertyService")
+	private PropertyServiceImpl propertyServiceImpl;
+	@Resource(name="shopService")
+	private ShopServiceImpl shopServiceImpl;
+	@Resource(name="shopGoodsService")
+	private ShopGoodsServiceImpl shopGoodsService;
+	@Resource(name="propertyValueService")
+	private PropertyValueServiceImpl propertyValueService;
 	private String GOODSID;
 	private Integer SEARCHPAGENOW;
 	private String ISUP;
@@ -104,15 +126,20 @@ public class GoodsManagerController {
 			LEVELTHREE = levelthree;
 			GOODSNAME = goodsname;
 			BARCODE = barcode;
-			
+			 
 		}
-		SEARCHROWCOUNT = goodsManagerService.sizeofAllSearch(GOODSID, ISUP, LEVELONE, LEVELTWO, LEVELTHREE, BARCODE, GOODSNAME);
+		
+		Integer shopId = CommonUtil.getInstance().getShopId(httpSession);
+		SEARCHROWCOUNT = goodsManagerService.sizeofAllSearch(GOODSID, ISUP, LEVELONE, LEVELTWO, 
+				LEVELTHREE, BARCODE, GOODSNAME, shopId );
 		//logger.info(SEARCHROWCOUNT);
 		SEARCHPAGENOW = (pageNow == null || pageNow == 0)?1:pageNow;
 		int pagesize = 10;
-		List<Level1> level1s = levelOneService.findAllLevelOne();
+		
+		List<Level1> level1s = levelOneService.findAllLevelOne(shopId);
 		modelMap.addAttribute("level1s", level1s);
-		List<Goodsinfo> goodsinfos = goodsManagerService.searchByMap(GOODSID, ISUP, LEVELONE, LEVELTWO, LEVELTHREE, BARCODE, GOODSNAME, SEARCHPAGENOW, pagesize );
+		List<Shopgoods> goodsinfos = goodsManagerService.searchByMap(GOODSID, ISUP, LEVELONE, LEVELTWO,
+				LEVELTHREE, BARCODE, GOODSNAME, SEARCHPAGENOW, pagesize , shopId);
 		//logger.info(goodsinfos);
 		modelMap.addAttribute("pagecount", (SEARCHROWCOUNT % pagesize) == 0?(SEARCHROWCOUNT / pagesize) : ((SEARCHROWCOUNT / pagesize) + 1));
 		modelMap.addAttribute("pagenow", SEARCHPAGENOW);
@@ -125,12 +152,15 @@ public class GoodsManagerController {
 	
 	// 商品上线管理--添加商品
 	@RequestMapping("/addview")
-	public String AddGoods(ModelMap modelMap) {
+	public String AddGoods(ModelMap modelMap, HttpSession session) {
 		// 根据字符串初始化Path类
-		List<Level1> level1s = levelOneService.findAllLevelOne();
-		
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+		List<Level1> level1s = levelOneService.findAllLevelOne(shopId);
+		//Shop shop = shopServiceImpl.findById(shopId);
+		List<Property> properties = propertyServiceImpl.findAllByShopId(shopId);
 		List<Activity> activities = activityService.findAll();
 		//logger.info(String.valueOf(activities));
+		modelMap.addAttribute("properties", properties);
 		modelMap.addAttribute("activities", activities);
 		modelMap.addAttribute("level1s", level1s);
 		path = PathUtil.setPathParams(new String[] {
@@ -142,9 +172,13 @@ public class GoodsManagerController {
 	//添加商品
 	@SuppressWarnings("unused")
 	@RequestMapping("/submitview")
-	public String AddGoods1(Goodsinfo goodsinfo, ModelMap modelMap, @RequestParam(value = "files", required = false) MultipartFile [] files
+	public String AddGoods1(Goodsinfo goodsinfo, ModelMap modelMap, 
+			@RequestParam(value = "files", required = false) MultipartFile [] files
     		,HttpServletRequest request, HttpSession httpSession
 			) {
+		Enumeration<String> requestParams = request.getParameterNames();
+		Integer shopId = CommonUtil.getInstance().getShopId(httpSession);
+		
 		String ip = StringUtil.getInstance().getIp(request);
 		Object object = httpSession.getAttribute("admin");
 		Admininfo admin = object == null? null:(Admininfo)object;
@@ -152,13 +186,45 @@ public class GoodsManagerController {
 		goodsinfo.setPhotoUrl(imagePaths);
 		if(goodsinfo!=null){
 			goodsinfo.setUpdateTime(new Date());
-			//logger.info(String.valueOf(goodsinfo));
+			logger.info(String.valueOf(goodsinfo));
 			goodsManagerService.addgoods(goodsinfo);
-			CommonUtil.getInstance().saveLog("新增商品，商品id=" + goodsinfo.getGoodsId(), ip, admin == null?null:admin.getAdminId(), logService);
+			logger.info("goodsid = " + goodsinfo.getGoodsId());
+			Shopgoods shopgoods = new Shopgoods();
+			shopgoods.setGoodsinfo(goodsinfo);
+			shopgoods.setShopgoodsStatus(1);
+			shopgoods.setDate(new Date());
+			shopgoods.setShopId(shopId);
+			String activityid = request.getParameter("activityId");
+			if (activityid != null)
+			{
+				shopgoods.setActivityId(Integer.parseInt(activityid.trim()));
+			}
+			shopGoodsService.add(shopgoods);
+			logger.info("shopgoodsid = " + shopgoods.getShopgoodsId());
+			List<Propertyvalue> propertyvalues = new LinkedList<Propertyvalue>();
+			while (requestParams.hasMoreElements()) {
+				String attr = requestParams.nextElement();
+				if (attr.contains(ConstantUtil.PREFNEWPROPERTY))
+				{
+					logger.info("newattr = " + request.getParameter(attr));
+					Property property = propertyServiceImpl.findByShopIdAndName(attr, shopId);
+					Propertyvalue propertyvalue = new Propertyvalue();
+					propertyvalue.setPropertyStatus(1);
+					propertyvalue.setPropertyId(property.getPropertyId());
+					propertyvalue.setPropertyvalueValue(request.getParameter(attr));
+					propertyvalue.setShopgoodsId(shopgoods.getShopgoodsId());
+					propertyvalues.add(propertyvalue);
+				}
+				logger.info(attr);
+			}
+			propertyValueService.addAll(propertyvalues);
+			CommonUtil.getInstance().saveLog("新增商品，商品id=" + goodsinfo.getGoodsId(),
+					ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 			modelMap.addAttribute("success", "您的新增商品操作成功！");
 			return "forward:goodsinfoview/1";
 		}
-		CommonUtil.getInstance().saveLog("新增商品失败，商品id=" + String.valueOf(goodsinfo), ip, admin == null?null:admin.getAdminId(), logService);
+		CommonUtil.getInstance().saveLog("新增商品失败，商品id=" + String.valueOf(goodsinfo),
+				ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 		modelMap.addAttribute("success", "您的新增商品操作失败！");
 		return "forward:goodsinfoview/1";
 	}
@@ -190,7 +256,9 @@ public class GoodsManagerController {
 		String ip = StringUtil.getInstance().getIp(request);
 		Object object = httpSession.getAttribute("admin");
 		Admininfo admin = object == null? null:(Admininfo)object;
-		CommonUtil.getInstance().saveLog("批量导入数据成功！", ip, admin == null?null:admin.getAdminId(), logService);
+		CommonUtil.getInstance().saveLog("批量导入数据成功！", ip,
+				admin == null?null:admin.getAdminId(), logService,
+						admin == null?null:admin.getShopId());
 		modelMap.addAttribute("success", "您的批量导入成功！");
 		return "forward:goodsinfoview/1";
 	}
@@ -207,13 +275,16 @@ public class GoodsManagerController {
 
 	// 商品信息管理
 	@RequestMapping("/goodsinfoview/{pagenow}")
-	public String GoodsInfoManager(ModelMap modelMap, @PathVariable("pagenow")Integer pageNow) {
+	public String GoodsInfoManager(ModelMap modelMap,
+			@PathVariable("pagenow")Integer pageNow, HttpSession session) {
 		pagenow = pageNow == null?1:pageNow; 
 		int pagesize = 10;
-		List<Level1> level1s = levelOneService.findAllLevelOne();
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+		List<Level1> level1s = levelOneService.findAllLevelOne(shopId);
 		modelMap.addAttribute("level1s", level1s);
-		List<Goodsinfo> goodsinfos = goodsManagerService.findByPage(pagenow, pagesize);
-		int pageCount = goodsManagerService.sizeOfAll();
+		//List<Goodsinfo> goodsinfos = goodsManagerService.findByPage(pagenow, pagesize);
+		List<Shopgoods> goodsinfos = shopGoodsService.findByPage(pagenow, pagesize, shopId);
+		int pageCount =shopGoodsService.sizeoflist();
 		modelMap.addAttribute("pagecount", (pageCount % pagesize) == 0?(pageCount / pagesize) : ((pageCount / pagesize) + 1));
 		modelMap.addAttribute("pagenow", pagenow);
 		modelMap.addAttribute("goodsinfos", goodsinfos);
@@ -264,20 +335,25 @@ public class GoodsManagerController {
     	return result;
 	}*/
 	@RequestMapping("/updateview/{goodsid}")
-	public String update(ModelMap modelMap, @PathVariable("goodsid") Integer goodsid) {
+	public String update(ModelMap modelMap,
+			@PathVariable("goodsid") Integer goodsid, HttpSession session) {
 		List<Activity> activities = activityService.findAll();
 		modelMap.addAttribute("activities", activities);
-		Goodsinfo goodsinfo = goodsManagerService.findById(goodsid);
+		//Goodsinfo goodsinfo = goodsManagerService.findById(goodsid);
+		logger.info("goodsid = " + goodsid);
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+		Shopgoods goodsinfo = shopGoodsService.findEveryById(goodsid, shopId);
+		logger.info("goodsinfo = " + goodsinfo);
 		if (goodsinfo != null)
 		{
-			String oneclass = goodsinfo.getGoodsClass1();
-			String twoclass = goodsinfo.getGoodsClass2();
-			String threeeclass = goodsinfo.getGoodsClass3();
-			List<Level1> level1s = levelOneService.findAllLevelOne();
+			String oneclass = goodsinfo.getGoodsinfo().getGoodsClass1();
+			String twoclass = goodsinfo.getGoodsinfo().getGoodsClass2();
+			String threeeclass = goodsinfo.getGoodsinfo().getGoodsClass3();
+			List<Level1> level1s = levelOneService.findAllLevelOne(shopId);
 			List<Level2> level2s = levelTwoService.findByLevelOneId((oneclass == null || oneclass.isEmpty())?null:Integer.parseInt(oneclass));
 			List<Level3> level3s = levelThreeService.findByLevelTwoId((twoclass == null || twoclass.isEmpty())?null : Integer.parseInt(twoclass));
 			
-			String imageUrlStr = goodsinfo.getPhotoUrl();
+			String imageUrlStr = goodsinfo.getGoodsinfo().getPhotoUrl();
 			String [] imageUrls =  ((imageUrlStr == null || imageUrlStr.isEmpty())?null:imageUrlStr.split(PropertiesUtil.getInstace().getFileProperties("image.regex")));
 			modelMap.addAttribute("imgs", imageUrls);
 			modelMap.addAttribute("leveltwos", level2s);
@@ -287,6 +363,23 @@ public class GoodsManagerController {
 			modelMap.addAttribute("twoclass", twoclass);
 			modelMap.addAttribute("threeeclass", threeeclass);
 		}
+		
+		List<Property> properties = propertyServiceImpl.findAllByShopId(shopId );
+		//logger.info(String.valueOf(activities));
+		modelMap.addAttribute("properties", properties);
+		modelMap.addAttribute("json", JsonParserUtil.getInstance().Obj2JsonStr(goodsinfo));
+		Set<Propertyvalue> propertyvalues = goodsinfo.getPropertyvalues();
+		Map<String, String> propertyValueMap = new HashMap<String, String>(); 
+		for (Iterator iterator = propertyvalues.iterator(); iterator.hasNext();) {
+			Propertyvalue propertyvalue = (Propertyvalue) iterator.next();
+			Property property = propertyServiceImpl.findByIdAndShopId(propertyvalue.getPropertyId(), shopId);
+			propertyValueMap.put(property.getPropertyName(), 
+					propertyvalue.getPropertyvalueValue());
+		}
+		String mapjson = JsonParserUtil.getInstance().Obj2JsonStr(propertyValueMap);
+		logger.info("mapjson = " + mapjson);
+		modelMap.addAttribute("propertymap", mapjson);
+		logger.info(goodsinfo);
 		modelMap.addAttribute("goodsinfo", goodsinfo);
 		// 根据字符串初始化Path类
 		path = PathUtil.setPathParams(new String[] {
@@ -297,15 +390,17 @@ public class GoodsManagerController {
 	    //修改商品
 		@SuppressWarnings("unused")
 		@RequestMapping("/update")
-		public String update(Goodsinfo goodsinfo, ModelMap modelMap, @RequestParam(value = "files", required = false) MultipartFile [] files
-	    		
-				, String goodsName, HttpServletRequest request, HttpSession httpSession
+		public String update(Goodsinfo goodsinfo, ModelMap modelMap,
+				@RequestParam(value = "files", required = false) MultipartFile [] files
+				, String goodsName, HttpServletRequest request, HttpSession httpSession, Integer shopgoodsId
 				) {
 			String ip = StringUtil.getInstance().getIp(request);
+			Enumeration<String> requestParams = request.getParameterNames();
 			Object object = httpSession.getAttribute("admin");
 			Admininfo admin = object == null? null:(Admininfo)object;
 			Goodsinfo oldgoodsinfo = goodsManagerService.findById(goodsinfo.getGoodsId());
-			
+			Integer shopId = admin.getShopId();
+			Shopgoods shopgoods = shopGoodsService.findEveryById(shopgoodsId, shopId );
 			String imagePaths = FileUtil.getInstance().uploadFiels(files);
 			if (imagePaths == null ||imagePaths.isEmpty())
 				goodsinfo.setPhotoUrl(oldgoodsinfo.getPhotoUrl());
@@ -316,69 +411,151 @@ public class GoodsManagerController {
 			if(goodsinfo != null){
 				goodsinfo.setUpdateTime(new Date());
 				goodsManagerService.update(goodsinfo);
-				CommonUtil.getInstance().saveLog("修改商品信息，商品id=" + goodsinfo.getGoodsId(), ip, admin == null?null:admin.getAdminId(), logService);
+				String activityid = request.getParameter("activityId");
+				if (activityid != null)
+				{
+					shopgoods.setActivityId(Integer.parseInt(activityid.trim()));
+				}
+				shopgoods.setDate(new Date());
+				shopgoods.setShopgoodsStatus(goodsinfo.getStatus());
+				shopGoodsService.update(shopgoods);
+				logger.info("shopgoodsid = " + shopgoods);
+				Set<Propertyvalue> propertyvalues = shopgoods.getPropertyvalues();
+				List<Propertyvalue> propertyvalues2 = new ArrayList<Propertyvalue>();
+				logger.info("properties = " + propertyvalues);
+				if (propertyvalues != null && propertyvalues.size() > 0)
+				{
+					for (Iterator iterator = propertyvalues.iterator(); iterator
+							.hasNext();) {
+						Propertyvalue propertyvalue = (Propertyvalue) iterator
+								.next();
+						Property property = propertyServiceImpl.findByIdAndShopId(propertyvalue.getPropertyId(), shopId);
+						String value = request.getParameter(property.getPropertyName());
+						propertyvalue.setPropertyvalueValue(value);
+						propertyvalues2.add(propertyvalue);
+					}
+					logger.info("========in==========properties = " + propertyvalues);
+					propertyValueService.updateAll(propertyvalues2);
+				}
+				else {
+					propertyvalues2 = new LinkedList<Propertyvalue>();
+					while (requestParams.hasMoreElements()) {
+						String attr = requestParams.nextElement();
+						if (attr.contains(ConstantUtil.PREFNEWPROPERTY))
+						{
+							logger.info("newattr = " + request.getParameter(attr));
+							Property property = propertyServiceImpl.findByShopIdAndName(attr, shopId);
+							Propertyvalue propertyvalue = new Propertyvalue();
+							propertyvalue.setPropertyStatus(1);
+							propertyvalue.setPropertyId(property.getPropertyId());
+							propertyvalue.setPropertyvalueValue(request.getParameter(attr));
+							propertyvalue.setShopgoodsId(shopgoods.getShopgoodsId());
+							propertyvalues2.add(propertyvalue);
+						}
+						logger.info(attr);
+					}
+					propertyValueService.addAll(propertyvalues2);
+				}
+				
+				
+				CommonUtil.getInstance().saveLog("修改商品信息，商品id=" + goodsinfo.getGoodsId(),
+						ip, admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 				modelMap.addAttribute("success", "您的更新操作成功！");
 				return "forward:goodsinfoview/1";
 			}
-			CommonUtil.getInstance().saveLog("修改商品信息出错，商品id=" + goodsinfo.getGoodsId(), ip, admin == null?null:admin.getAdminId(), logService);
+			CommonUtil.getInstance().saveLog("修改商品信息出错，商品id=" + goodsinfo.getGoodsId(), ip,
+					admin == null?null:admin.getAdminId(), logService, admin == null?null:admin.getShopId());
 			return "redirect:/goodsmanager/addview";
 		}
 
 		@RequestMapping("/down/{goodsid}")
 		@ResponseBody
-		public String down(@PathVariable("goodsid")Integer id, HttpServletRequest request)
+		public String down(@PathVariable("goodsid")Integer id, 
+				HttpServletRequest request, HttpSession session)
 		{
-			Goodsinfo goodsinfo = goodsManagerService.findById(id);
+			//Goodsinfo goodsinfo = goodsManagerService.findById(id);
+			
+			Integer shopId = CommonUtil.getInstance().getShopId(session);
+			Shopgoods goodsinfo = shopGoodsService.findEveryById(id, shopId );
+			logger.info("shopgoods = " + goodsinfo);
 			if (goodsinfo != null)
 			{
-				goodsinfo.setStatus(0);
+				goodsinfo.setShopgoodsStatus(0);
+				shopGoodsService.update(goodsinfo);
+				Goodsinfo goods = goodsinfo.getGoodsinfo();
+				goods.setStatus(0);
+				goodsManagerService.update(goods);
+				logger.info("goods = " + goods);
 			}
-			goodsManagerService.update(goodsinfo);
 			String callbackFunName = request.getParameter("callbackparam");
 			return callbackFunName + "(" + "{'success':true}" + ")";
 			
 		}
 		@RequestMapping("/up/{goodsid}")
 		@ResponseBody
-		public String up(@PathVariable("goodsid")Integer id, HttpServletRequest request)
+		public String up(@PathVariable("goodsid")Integer id,
+				HttpServletRequest request, HttpSession session)
 		{
 			logger.info("id = " + id);
-			Goodsinfo goodsinfo = goodsManagerService.findById(id);
+			Integer shopId = CommonUtil.getInstance().getShopId(session);
+			Shopgoods goodsinfo = shopGoodsService.findEveryById(id, shopId );
+			logger.info("shopgoods = " + goodsinfo);
 			if (goodsinfo != null)
 			{
-				goodsinfo.setStatus(1);
+				goodsinfo.setShopgoodsStatus(1);
+				shopGoodsService.update(goodsinfo);
+				Goodsinfo goods = goodsinfo.getGoodsinfo();
+				goods.setStatus(1);
+				goodsManagerService.update(goods);
+				logger.info("goods = " + goods);
+				
 			}
-			goodsManagerService.update(goodsinfo);
 			String callbackFunName = request.getParameter("callbackparam");
 			return callbackFunName + "(" + "{'success':true}" + ")";
 			
 		}
 		@RequestMapping("/delete/{goodsid}")
 		@ResponseBody
-		public String delete(@PathVariable("goodsid")Integer id, ModelMap modelMap, HttpServletRequest request)
+		public String delete(@PathVariable("goodsid")Integer id, ModelMap modelMap, 
+				HttpServletRequest request, HttpSession session)
 		{
 			
-			Goodsinfo goodsinfo = goodsManagerService.findById(id);
-			
-			goodsManagerService.delete(goodsinfo);
+			Integer shopId = CommonUtil.getInstance().getShopId(session);
+			Shopgoods goodsinfo = shopGoodsService.findEveryById(id, shopId );
+			logger.info("shopgoods = " + goodsinfo);
+			if (goodsinfo != null)
+			{
+				
+				shopGoodsService.delete(goodsinfo);
+				
+				Goodsinfo goods = goodsinfo.getGoodsinfo();
+				goodsManagerService.delete(goods);
+				logger.info("goods = " + goods);
+				
+				Set<Propertyvalue> propertyvalues = goodsinfo.getPropertyvalues();
+				propertyValueService.deleteAll(propertyvalues);
+			}
 			String callbackFunName = request.getParameter("callbackparam");
 			return callbackFunName + "(" + "{'success':true}" + ")";
 		}
 		@RequestMapping("/view/{goodsid}")
-		public String view(ModelMap modelMap, @PathVariable("goodsid") Integer goodsid) {
+		public String view(ModelMap modelMap,
+				@PathVariable("goodsid") Integer goodsid, HttpSession session) {
 			List<Activity> activities = activityService.findAll();
 			modelMap.addAttribute("activities", activities);
-			Goodsinfo goodsinfo = goodsManagerService.findById(goodsid);
+			Integer shopId = CommonUtil.getInstance().getShopId(session);
+			Shopgoods goodsinfo = shopGoodsService.findById(goodsid, shopId );
+			//Goodsinfo goodsinfo = goodsManagerService.findById(goodsid);
 			if (goodsinfo != null)
 			{
-				String oneclass = goodsinfo.getGoodsClass1();
-				String twoclass = goodsinfo.getGoodsClass2();
-				String threeeclass = goodsinfo.getGoodsClass3();
-				List<Level1> level1s = levelOneService.findAllLevelOne();
+				String oneclass = goodsinfo.getGoodsinfo().getGoodsClass1();
+				String twoclass = goodsinfo.getGoodsinfo().getGoodsClass2();
+				String threeeclass = goodsinfo.getGoodsinfo().getGoodsClass3();
+				List<Level1> level1s = levelOneService.findAllLevelOne(shopId);
 				List<Level2> level2s = levelTwoService.findByLevelOneId((oneclass == null || oneclass.isEmpty())?null:Integer.parseInt(oneclass));
 				List<Level3> level3s = levelThreeService.findByLevelTwoId((twoclass == null || twoclass.isEmpty())?null : Integer.parseInt(twoclass));
 				
-				String imageUrlStr = goodsinfo.getPhotoUrl();
+				String imageUrlStr = goodsinfo.getGoodsinfo().getPhotoUrl();
 				String [] imageUrls =  ((imageUrlStr == null || imageUrlStr.isEmpty())?null:imageUrlStr.split(PropertiesUtil.getInstace().getFileProperties("image.regex")));
 				modelMap.addAttribute("imgs", imageUrls);
 				modelMap.addAttribute("leveltwos", level2s);
@@ -388,6 +565,23 @@ public class GoodsManagerController {
 				modelMap.addAttribute("twoclass", twoclass);
 				modelMap.addAttribute("threeeclass", threeeclass);
 			}
+			
+			List<Property> properties = propertyServiceImpl.findAllByShopId(shopId );
+			//logger.info(String.valueOf(activities));
+			modelMap.addAttribute("properties", properties);
+			modelMap.addAttribute("json", JsonParserUtil.getInstance().Obj2JsonStr(goodsinfo));
+			Set<Propertyvalue> propertyvalues = goodsinfo.getPropertyvalues();
+			Map<String, String> propertyValueMap = new HashMap<String, String>(); 
+			for (Iterator iterator = propertyvalues.iterator(); iterator.hasNext();) {
+				Propertyvalue propertyvalue = (Propertyvalue) iterator.next();
+				Property property = propertyServiceImpl.findByIdAndShopId(propertyvalue.getPropertyId(), shopId);
+				propertyValueMap.put(property.getPropertyName(), 
+						propertyvalue.getPropertyvalueValue());
+			}
+			String mapjson = JsonParserUtil.getInstance().Obj2JsonStr(propertyValueMap);
+			logger.info("mapjson = " + mapjson);
+			modelMap.addAttribute("propertymap", mapjson);
+			
 			modelMap.addAttribute("goodsinfo", goodsinfo);
 			// 根据字符串初始化Path类
 			path = PathUtil.setPathParams(new String[] {

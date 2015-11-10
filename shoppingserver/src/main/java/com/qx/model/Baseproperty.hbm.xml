@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-8 22:30:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Baseproperty" table="baseproperty" catalog="shopping">
+        <id name="baseId" type="java.lang.Integer">
+            <column name="base_id" />
+            <generator class="identity" />
+        </id>
+        <property name="baseName" type="string">
+            <column name="base_name">
+                <comment>
+                &#187;&#249;&#177;&#190;&#202;&#244;&#208;&#212;&#195;&#251;&#179;&#198;&#163;&#172;&#182;&#212;&#211;&#166;goodsinfo&#177;&#237;&#202;&#244;&#208;&#212;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="baseStatus" type="java.lang.Integer">
+            <column name="base_status">
+                <comment>
+                &#187;&#249;&#177;&#190;&#202;&#244;&#208;&#212;&#215;&#180;&#204;&#172;&#163;&#172;1&#180;&#250;&#177;&#237;&#188;&#164;&#187;&#238;&#163;&#172;0&#180;&#250;&#177;&#237;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
+        <property name="baseType" type="string">
+            <column name="base_type">
+                
+            </column>
+        </property>
+        <property name="baseShowname" type="string">
+            <column name="base_showname">
+                
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

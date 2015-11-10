@@ -29,7 +29,16 @@ public class Orderinfo implements java.io.Serializable {
 	private List<SubOrderinfo> suborders ;
 	private Userinfo userinfo;
 	private String phone;
+	private Integer shopId;
 	
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
 	public List<SubOrderinfo> getSuborders() {
 		return suborders;
 	}

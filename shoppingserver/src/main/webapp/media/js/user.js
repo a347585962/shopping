@@ -80,4 +80,23 @@ jQuery(function(){
 	   	     $("#updateUserModal").modal();
 	   	 });
 	 });
+	$(".shopupdate").each(function(){
+	   	 $(this).click(function(){
+	   		 //alert("#123");
+	   		 var shopid = $(this).attr("shopid");
+	   	     var shopname = $(this).attr("shopname");
+	   	     var shopphone = $(this).attr("shopphone");
+	   	     var shopPeople = $(this).attr("shoppeople");
+	   	     var shopStatus = $(this).attr("shopstatus");
+	   	     $("#shopid").val(shopid);
+	   	     $("#shopPeople").val(shopPeople);
+	   	     $("#shopPhone").val(shopphone);
+	   	     $("#shopName").val(shopname);
+	   	  $("#shopStatus").val(shopStatus);
+	   	     $("#updateShopModal").modal();
+	   	 });
+	 });
+	$("#addshop").click(function(){
+		$("#addShopModal").modal();
+	});
 });

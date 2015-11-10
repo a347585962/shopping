@@ -94,10 +94,11 @@ public class ClientRequestController {
 		Object object = httpSession.getAttribute("user");
 		Userinfo user = object == null ? null : (Userinfo) object;
 		CommonUtil.getInstance().saveLog("客户端浏览商品，一级分类", ip,
-				user == null ? null : user.getUserId(), logService);
-		List<Level1> levelOnes = levelOneService.findAllLevelOne();
-		String jsonData = JsonParserUtil.getInstance().ParseListToJSON(
-				levelOnes);
+				user == null ? null : user.getUserId(), logService, user == null ? null : user.getShopId());
+		//List<Level1> levelOnes = levelOneService.findAllLevelOne();
+		//String jsonData = JsonParserUtil.getInstance().ParseListToJSON(
+			//	levelOnes);
+		String jsonData = null;
 		return jsonData;
 	}
 
@@ -125,7 +126,7 @@ public class ClientRequestController {
 		Object object = httpSession.getAttribute("user");
 		Userinfo user = object == null ? null : (Userinfo) object;
 		CommonUtil.getInstance().saveLog("客户端浏览二级分类，一级分类id=" + id, ip,
-				user == null ? null : user.getUserId(), logService);
+				user == null ? null : user.getUserId(), logService, user == null ? null : user.getShopId());
 		logger.info("leveloneid = " + id);
 		List<Level2> level1s = levelTwoService.findByLevelOneId((id == null
 				|| id.equals("0") || id.equals("undefined")) ? null : Integer
@@ -157,7 +158,7 @@ public class ClientRequestController {
 		Object object = httpSession.getAttribute("user");
 		Userinfo user = object == null ? null : (Userinfo) object;
 		CommonUtil.getInstance().saveLog("客户端浏览三级分类，二级分类id=" + id, ip,
-				user == null ? null : user.getUserId(), logService);
+				user == null ? null : user.getUserId(), logService, user == null ? null : user.getShopId());
 		logger.info("leveltwoid = " + id);
 		List<Level3> level3s = levelThreeService.findByLevelTwoId((id == null
 				|| id.equals("0") || id.equals("undefined")) ? null : Integer
@@ -190,7 +191,7 @@ public class ClientRequestController {
 		Object object = httpSession.getAttribute("user");
 		Userinfo user = object == null ? null : (Userinfo) object;
 		CommonUtil.getInstance().saveLog("客户端浏览商品集合，三级分类id=" + id, ip,
-				user == null ? null : user.getUserId(), logService);
+				user == null ? null : user.getUserId(), logService, user == null ? null : user.getShopId());
 		logger.info("levelthreeid = " + id);
 		List<Goodsinfo> goodsinfos = goodsManagerService
 				.findByLevelThreeId((id == null || id.equals("0") || id
@@ -222,7 +223,7 @@ public class ClientRequestController {
 		Object object = httpSession.getAttribute("user");
 		Userinfo user = object == null ? null : (Userinfo) object;
 		CommonUtil.getInstance().saveLog("客户端浏览商品，商品id=" + id, ip,
-				user == null ? null : user.getUserId(), logService);
+				user == null ? null : user.getUserId(), logService, user == null ? null : user.getShopId());
 		logger.info("levelthreeid = " + id);
 		Goodsinfo goodsinfo = goodsManagerService.findById((id == null
 				|| id.equals("0") || id.equals("undefined")) ? null : Integer
@@ -259,12 +260,14 @@ public class ClientRequestController {
 			modelMap.addAttribute("user", userinfo);
 			CommonUtil.getInstance().saveLog(
 					"客户端登陆成功，用户id=" + userinfo.getUserId(), ip,
-					userinfo == null ? null : userinfo.getUserId(), logService);
+					userinfo == null ? null : userinfo.getUserId(), logService, 
+							userinfo == null ? null : userinfo.getShopId());
 			return "{\"loginsuccess\":\"true\"}";
 		}
 		CommonUtil.getInstance().saveLog(
 				"客户端登陆失败，用户username=" + username + "_pwd=" + pwd, ip,
-				userinfo == null ? null : userinfo.getUserId(), logService);
+				userinfo == null ? null : userinfo.getUserId(), logService
+						, userinfo == null ? null : userinfo.getShopId());
 		return "{\"loginsuccess\":\"false\"}";
 	}
 

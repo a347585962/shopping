@@ -25,10 +25,10 @@ public class LevelOneDaoImpl implements ILevelOneDao {
 	private HibernateTemplate mysqlhibernateTemplete;
 
 	@Override
-	public List<Level1> findAllLevelOne() {
+	public List<Level1> findAllLevelOne(Integer shopId) {
 		// TODO Auto-generated method stub
 		List<Level1> level1s = (List<Level1>) mysqlhibernateTemplete
-				.find("from Level1");
+				.find("from Level1 where shopId=" + shopId + " and level1Status=1");
 		return level1s;
 	}
 

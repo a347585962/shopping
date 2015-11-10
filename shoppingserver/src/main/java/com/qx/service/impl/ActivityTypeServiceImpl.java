@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.qx.dao.ICommonDao;
+import com.qx.dao.impl.ActivityTypeDaoImpl;
 import com.qx.model.Activitytype;
 import com.qx.service.ICommonService;
 @Service("activityTypeService")
@@ -19,7 +20,7 @@ public class ActivityTypeServiceImpl implements ICommonService<Activitytype> {
 	private static final Logger logger = Logger.getLogger(ActivityTypeServiceImpl.class);
 
 	@Resource(name="activityTypeDao")
-	private ICommonDao<Activitytype> commonDao;
+	private ActivityTypeDaoImpl commonDao;
 	@Override
 	public void add(Activitytype object) {
 		// TODO Auto-generated method stub
@@ -72,6 +73,11 @@ public class ActivityTypeServiceImpl implements ICommonService<Activitytype> {
 			return commonDao.findById(id);
 		logger.error("查询activitytype的id为null");
 		return null;
+	}
+	
+	public List<Activitytype> findAllByShopId(Integer shopId)
+	{
+		return commonDao.findAllByShopId(shopId);
 	}
 
 }

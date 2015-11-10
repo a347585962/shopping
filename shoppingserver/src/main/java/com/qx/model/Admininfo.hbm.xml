@@ -23,5 +23,14 @@
                 <comment>&#185;&#220;&#192;&#237;&#212;&#177;&#195;&#251;&#179;&#198;</comment>
             </column>
         </property>
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id" />
+        </property>
+        <property name="adminStatus" type="java.lang.Integer">
+            <column name="admin_status">
+                <comment>
+                &#201;&#204;&#188;&#210;&#185;&#220;&#192;&#237;&#212;&#177;&#215;&#180;&#204;&#172;&#163;&#172;1&#180;&#250;&#177;&#237;&#188;&#164;&#187;&#238;&#163;&#172;0&#180;&#250;&#177;&#237;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-8 22:30:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Shopgoods" table="shopgoods" catalog="shopping">
+        <id name="shopgoodsId" type="java.lang.Integer">
+            <column name="shopgoods_id" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id">
+                <comment>&#201;&#204;&#188;&#210;id</comment>
+            </column>
+        </property>
+        <!-- <property name="goodsId" type="java.lang.Integer">
+            <column name="goods_id">
+                <comment>&#201;&#204;&#198;&#183;&#208;&#197;&#207;&#162;(goodsinfo)id</comment>
+            </column>
+        </property> -->
+        <property name="activityId" type="java.lang.Integer">
+            <column name="activity_id">
+                <comment>&#201;&#204;&#198;&#183;&#208;&#197;&#207;&#162;(goodsinfo)id</comment>
+            </column>
+        </property>
+        <property name="shopgoodsStatus" type="java.lang.Integer">
+            <column name="shopgoods_status">
+                <comment>
+                &#201;&#204;&#188;&#210;&#201;&#204;&#198;&#183;&#208;&#197;&#207;&#162;&#215;&#180;&#204;&#172;&#163;&#172;1&#180;&#250;&#177;&#237;&#188;&#164;&#187;&#238;&#163;&#172;0&#180;&#250;&#177;&#237;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
+        <property name="date" type="timestamp">
+            <column name="date" length="19">
+               
+            </column>
+        </property>
+	<many-to-one name="goodsinfo" class="com.qx.model.Goodsinfo" fetch="select" lazy="false"
+		unique="true">
+		<column name="goods_id">
+		</column>
+	</many-to-one>
+        <!-- <one-to-one name="goodsinfo" 
+        foreign-key="goods_id"
+        class="com.qx.model.Goodsinfo" lazy="false"/> -->
+		<set name="propertyvalues" table="propertyvalue" inverse="true" lazy="false"
+			fetch="select">
+			<key>
+				<column name="shopgoods_id" not-null="true">
+				</column>
+			</key>
+			<one-to-many class="com.qx.model.Propertyvalue" />
+		</set>
+		<set name="subOrderinfos" table="sub_orderinfo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopgoods_id" not-null="true" />
+            </key>
+            <one-to-many class="com.qx.model.SubOrderinfo" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -14,6 +14,7 @@ public class SubOrderinfo implements java.io.Serializable {
 
 	private Integer subOrderId;
 	private Goodsinfo goodsinfo;
+	private Shopgoods shopgoods;
 	private Integer goodsId;
 	private Orderinfo orderinfo;
 	private int goodsNum;
@@ -92,12 +93,21 @@ public class SubOrderinfo implements java.io.Serializable {
 		this.goodsPrice = goodsPrice;
 	}
 
+	public Shopgoods getShopgoods() {
+		return shopgoods;
+	}
+
+	public void setShopgoods(Shopgoods shopgoods) {
+		this.shopgoods = shopgoods;
+	}
+
 	@Override
 	public String toString() {
 		return "SubOrderinfo [subOrderId=" + subOrderId + ", goodsinfo="
-				+ goodsinfo + ", goodsId=" + goodsId + ", orderinfo="
-				+ orderinfo + ", goodsNum=" + goodsNum + ", goodsPrice="
-				+ goodsPrice + ", remark=" + remark + "]";
+				+ goodsinfo + ", shopgoods=" + shopgoods + ", goodsId="
+				+ goodsId + ", goodsNum="
+				+ goodsNum + ", goodsPrice=" + goodsPrice + ", remark="
+				+ remark + "]";
 	}
 
 	

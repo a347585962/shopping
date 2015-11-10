@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.mc.model.Path;
 import com.qx.model.Loginfo;
 import com.qx.model.Orderinfo;
+import com.qx.utils.CommonUtil;
 import com.qx.utils.PathUtil;
 
 @Controller
@@ -29,25 +32,28 @@ public class LogController {
 	private Path path = null;
 	Integer pagenow;
 	@RequestMapping("/look/{pagenow}")
-	public String look(ModelMap modelMap, @PathVariable("pagenow") Integer pageNow)
+	public String look(ModelMap modelMap, 
+			@PathVariable("pagenow") Integer pageNow, 
+			HttpSession session)
 	{
 		int pagesize = 17;
 		pagenow = pageNow == null ? 1: pageNow;
-		List<Loginfo> loginfos = logService.findByPage(pageNow, pagesize);
-		Integer pagecount = logService.findLogSize();
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+		List<Loginfo> loginfos = logService.findByPage(pageNow, pagesize, shopId); 
+		Integer pagecount = logService.findLogSize(shopId);
 		logger.info("loginfos = " + loginfos);
 		modelMap.addAttribute("loginfos", loginfos); 
-		
 		modelMap.addAttribute("pagecount", (pagecount % pagesize) == 0?(pagecount / pagesize) : ((pagecount / pagesize) + 1));
 		modelMap.addAttribute("pagenow", pagenow);
-		
 		path = PathUtil.setPathParams(new String[]{"PackageName:log","ViewName:log","ViewTitle:群祥日志查看","smenu:" + sMenu});
 		return PathUtil.returnStr(path, modelMap);
 	}
 	@RequestMapping("/detail/{logid}")
-	public String detail(@PathVariable("logid") Integer logid, ModelMap modelMap)
+	public String detail(@PathVariable("logid") Integer logid, ModelMap modelMap
+			, HttpSession session)
 	{
-		Loginfo loginfo = logService.selectByPrimaryId(logid);
+		Integer shopId = CommonUtil.getInstance().getShopId(session);
+		Loginfo loginfo = logService.selectByPrimaryId(logid, shopId);
 		modelMap.addAttribute("loginfo", loginfo);
 		path = PathUtil.setPathParams(new String[]{"PackageName:log","ViewName:detail","ViewTitle:群祥日志查看","smenu:" + sMenu});
 		return PathUtil.returnStr(path, modelMap);

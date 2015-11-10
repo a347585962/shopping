@@ -24,16 +24,16 @@ public class LevelOneServiceImpl implements ILevelOneService {
 	private ILevelOneDao levelOneDao;
 
 	@Override
-	public List<Level1> findAllLevelOne() {
+	public List<Level1> findAllLevelOne(Integer shopId) {
 		// TODO Auto-generated method stub
-		return levelOneDao.findAllLevelOne();
+		return levelOneDao.findAllLevelOne(shopId);
 	}
 
 	@Override
-	public String findAllLevelOne2Json() {
+	public String findAllLevelOne2Json(Integer shopId) {
 		// TODO Auto-generated method stub
 		return JsonParserUtil.getInstance().parserLevelList(
-				levelOneDao.findAllLevelOne());
+				levelOneDao.findAllLevelOne(shopId));
 	}
 
 	@Override

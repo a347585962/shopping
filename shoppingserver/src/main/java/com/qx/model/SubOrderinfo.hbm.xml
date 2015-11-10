@@ -8,6 +8,9 @@
             <column name="SubOrderID" />
             <generator class="identity" />
         </id>
+        <many-to-one name="shopgoods" class="com.qx.model.Shopgoods" lazy="false" fetch="select">
+            <column name="shopgoods_id" not-null="true" />
+        </many-to-one>
         <many-to-one name="goodsinfo" class="com.qx.model.Goodsinfo" lazy="false" fetch="select">
             <column name="GoodsID" not-null="true" />
         </many-to-one>

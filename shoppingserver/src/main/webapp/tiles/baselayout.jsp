@@ -53,7 +53,6 @@
 <!-- END GLOBAL MANDATORY STYLES -->
 <script src="<%=basePath%>media/js/jquery-1.10.1.min.js"
 		type="text/javascript"></script>
-<script src="<%=basePath %>assets/js/amazeui.min.js"></script>
 <script src="<%=basePath%>media/js/bootstrap.min.js"
 		type="text/javascript"></script>
 <script src="<%=basePath%>media/js/jquery.validate.js"

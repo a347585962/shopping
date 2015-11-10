@@ -18,6 +18,8 @@ import org.springframework.stereotype.Repository;
 import com.qx.dao.GoodsManagerDao;
 import com.qx.model.Goodsinfo;
 import com.qx.model.Orderinfo;
+import com.qx.model.Shopgoods;
+import com.qx.model.Userinfo;
 
 @Repository
 public class GoodsManagerDaoImpl implements GoodsManagerDao{
@@ -120,30 +122,40 @@ public class GoodsManagerDaoImpl implements GoodsManagerDao{
 	}
 
 	@Override
-	public List<Goodsinfo> searchByMap(Map<String, Object> parameters,
+	public List<Shopgoods> searchByMap(Map<String, Object> parameters,
 			final int start, final int size) {
 		// TODO Auto-generated method stub
 		String hql = "from Goodsinfo where " ;
-		String sql = "SELECT * from goodsinfo ";
+		String sql = "SELECT * from shopgoods t1,goodsinfo t2";
 		final String fianl_sql;
 		Set<String> set = parameters.keySet();
-		sql = setSql(parameters, sql, set) + " order by UpdateTime desc";
+		sql = setSql(parameters, sql, set) + " and t1.goods_id=t2.GoodsID order by UpdateTime desc";
 		fianl_sql = sql;
-		//logger.info(sql);
+		logger.info(sql);
 		@SuppressWarnings("unchecked")
-		List<Goodsinfo> list = mysqlhibernateTemplete.executeFind(new HibernateCallback<Object>() {
+		List<Shopgoods> list = mysqlhibernateTemplete.executeFind(new HibernateCallback<Object>() {
 
 			@Override
-			public List<Goodsinfo> doInHibernate(Session session) throws HibernateException,
+			public List<Shopgoods> doInHibernate(Session session) throws HibernateException,
 					SQLException {
 				// TODO Auto-generated method stub
-				Query query = session.createSQLQuery(fianl_sql).addEntity(Goodsinfo.class);
+				Query query = session.createSQLQuery(fianl_sql)
+					.addEntity(Goodsinfo.class)
+					.addEntity(Shopgoods.class);
 				query.setFirstResult(start);
 				query.setMaxResults(size);
 				List result = query.list();
-				
+				List<Shopgoods> shopgoodss = new ArrayList<Shopgoods>();
+				for (int i = 0; i < result.size(); i++) {
+
+					Object[] os = (Object[]) result.get(i);
+					Goodsinfo goodsinfo = (Goodsinfo) os[0];
+					Shopgoods shopgoods = (Shopgoods) os[1];
+					shopgoods.setGoodsinfo(goodsinfo);
+					shopgoodss.add(shopgoods);
+				}
 				//logger.info("list = " + result);
-				return result;
+				return shopgoodss;
 			}
 		});
 		//List list = mysqlhibernateTemplete.findByNamedParam(hql, keys, values);		
@@ -194,11 +206,12 @@ public class GoodsManagerDaoImpl implements GoodsManagerDao{
 	@Override
 	public int sizeofAllSearch(Map<String, Object> parameters) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT count(*) from goodsinfo ";
+		String sql = "SELECT count(*) from shopgoods t1,goodsinfo t2";
 		final String fianl_sql;
 		Set<String> set = parameters.keySet();
-		sql = setSql(parameters, sql, set);
+		sql = setSql(parameters, sql, set) + " and t1.goods_id=t2.GoodsID";
         fianl_sql = sql;
+        logger.info("sql = " + fianl_sql);
         @SuppressWarnings("unchecked")
 		List list = mysqlhibernateTemplete.executeFind(new HibernateCallback<Object>() {
 
@@ -217,5 +230,38 @@ public class GoodsManagerDaoImpl implements GoodsManagerDao{
         Integer count = Integer.parseInt((list == null && list.size() == 0)?"0":list.get(0).toString());
        // logger.info(count);
 		return count;
+	}
+
+	@Override
+	public List<Goodsinfo> findByPage(final Integer start, final Integer size,
+			Integer shopId) {
+		// TODO Auto-generated method stub
+		final String hql = "from Goodsinfo where shopId="+ shopId +"  order by updateTime desc";
+        List list = mysqlhibernateTemplete.executeFind(new HibernateCallback<Object>() {
+
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				// TODO Auto-generated method stub
+				Query query = session.createQuery(hql);
+				query.setFirstResult(start);
+				query.setMaxResults(size);
+				List result = query.list();
+				//logger.info("list = " + result);
+				return result;
+			}
+		});
+        //logger.info(list);
+		return list;
+	}
+
+	@Override
+	public int sizeOfAll(Integer shopId) {
+		// TODO Auto-generated method stub
+		String hql = "select count(*) from Goodsinfo where ";
+		Object o = mysqlhibernateTemplete.find(hql)
+				.listIterator().next();
+		Integer count = Integer.parseInt(o == null ?"0":o.toString());
+		return count.intValue();
 	}
 }

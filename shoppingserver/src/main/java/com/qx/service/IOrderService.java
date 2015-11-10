@@ -27,6 +27,12 @@ public interface IOrderService {
 	 */
 	public int findOrderSize();
 	/**
+	 *  查看订单的总数
+	 *  @param shopId 商家id
+	 * @return 订单总数量
+	 */
+	public int findShopOrderSizeByShopId(Integer shopId);
+	/**
 	 *  从指定的位置开始查询size跳订单数据，分页展示
 	 * @param start 开始的订单序号
 	 * @param size 返回的订单最大行数
@@ -34,12 +40,28 @@ public interface IOrderService {
 	 */
 	public List<Orderinfo> findOrder(int pagenow, int size);
 	/**
+	 *  从指定的位置开始查询size跳订单数据，分页展示
+	 * @param start 开始的订单序号
+	 * @param size 返回的订单最大行数
+	 * @param shopId 商家id
+	 * @return 订单集合
+	 */
+	public List<Orderinfo> findOrder(int pagenow, int size, Integer shopId);
+	/**
 	 *  查询
 	 * @param searchKey 查询键值
 	 * @param searchName 查询键名
 	 * @return 查询结构
 	 */
 	public List<Orderinfo> findBySearch(Object searchKey, String searchName);
+	/**
+	 *  查询
+	 * @param searchKey 查询键值
+	 * @param searchName 查询键名
+	 * @param shopId 商家id
+	 * @return 查询结构
+	 */
+	public List<Orderinfo> findBySearch(Object searchKey, String searchName, Integer shopId);
 	/**
 	 *  查询所有子订单集合
 	 * @return 子订单集合
@@ -82,6 +104,19 @@ public interface IOrderService {
 	 */
 	public List<Orderinfo> searchByMap(String orderid, String username, String ordersendstatus , String orderpaystatus, final int pagenow, final int pagesize);
 	/**
+	 *   根据传入的值进行like动态查找，并分页返回结果
+	 * @param orderid 订单id
+	 * @param username 用户名
+	 * @param ordersendstatus 订单送货状态
+	 * @param orderpaystatus 订单支付状态
+	 * @param pagenow 当前页
+	 * @param pagesize 页面数量
+	 * @param shopId 商家id
+	 * @return 订单集合
+	 */
+	public List<Orderinfo> searchByMap(String orderid, String username, String ordersendstatus , String orderpaystatus, final int pagenow, final int pagesize, Integer shopId);
+	
+	/**
 	 *   根据传入的值进行like动态查找，并分页返回结果大小
 	 * @param orderid 订单id
 	 * @param username 用户名
@@ -93,19 +128,32 @@ public interface IOrderService {
 	 */
 	public int sizeofAllSearch(String orderid, String username, String ordersendstatus , String orderpaystatus);
 	/**
+	 *   根据传入的值进行like动态查找，并分页返回结果大小
+	 * @param orderid 订单id
+	 * @param username 用户名
+	 * @param ordersendstatus 订单送货状态
+	 * @param orderpaystatus 订单支付状态
+	 * @param pagenow 当前页
+	 * @param pagesize 页面数量
+	 * @param shopId 商家id
+	 * @return 订单集合大小
+	 */
+	public int sizeofAllSearch(String orderid, String username, String ordersendstatus
+			, String orderpaystatus, Integer shopId);
+	/**
 	 *  在指定时间段内查询用户及购买量排行榜
 	 * @param start 开始时间
 	 * @param end 结束时间
 	 * @return 用户排行榜
 	 */
-	public List<Userinfo> topTenPerson(Date start, Date end);
+	public List<Userinfo> topTenPerson(Date start, Date end, Integer shopId);
 	/**
 	 *  在指定时间段内查询商品及销售量排行榜
 	 * @param start 开始时间
 	 * @param end 结束时间
 	 * @return 商品排行榜
 	 */
-	public List<Goodsinfo> topTenGoods(Date start, Date end);
+	public List<Goodsinfo> topTenGoods(Date start, Date end, Integer shopId);
 	/**
 	 *  保存订单信息
 	 * @param orderinfo 订单对象实例

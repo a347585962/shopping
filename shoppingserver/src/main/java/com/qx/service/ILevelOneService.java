@@ -11,12 +11,13 @@ public interface ILevelOneService {
 	 *  查询数据库中所有的商品一级分类
 	 * @return  一级分类集合
 	 */
-	public List<Level1> findAllLevelOne();
+	public List<Level1> findAllLevelOne(Integer shopId);
 	/**
 	 *  查询数据库中所有的商品一级分类并转为json数据
+	 *  @param shopId 商家id
 	 * @return  一级分类集合
 	 */
-	public String findAllLevelOne2Json();
+	public String findAllLevelOne2Json(Integer shopId);
 	/**
 	 *  添加一级分类
 	 * @param level1 一级分类对象

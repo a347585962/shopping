@@ -30,6 +30,7 @@
 					    <tr style="background-color:#414451; color:#fff">
 					       <td style='' class=''>日志名</td>
 					      <td style='' class=''>密码</td>
+					      <td style='' class=''>商家名称</td>
 					       <td  class=''>操作</td>
 					    </tr>
 						<c:forEach items="${users }" var="user" varStatus="status">
@@ -46,8 +47,15 @@
 									<span >${user.password}</span>
 									</a></div>
 								</td>
+								<td class=" ">
+								    
+									<span >${user.shop.shopName}</span>
+									
+								</td>
 								
-								<td class=""><a href='#'><button te='${user.adminId }' url='deluser' backurl='usermag' style='width:80px;' class='del btn btn-danger'>删除</button></a>
+								<c:if test="${admin.shopId != 0 }">
+								  <td class=""><a href='<%=basePath %>user/deluser/${user.adminId }'>
+								<button  style='width:80px;' class='del btn btn-danger'>删除</button></a>
 								  |	<button  userid='${user.adminId }'   username="${user.userName}" password="${user.password}"
 								   style='width:80px;' class="update btn btn-warning"  >
                                                                                                                      修改
@@ -55,6 +63,18 @@
                                    <!-- Modal -->
                            
 								</td>
+								</c:if>
+								<c:if test="${admin.shopId == 0 }">
+								  <td class=""><a href='<%=basePath %>user/delalluser/${user.adminId }'>
+								<button  style='width:80px;' class='del btn btn-danger'>删除</button></a>
+								  |	<button  userid='${user.adminId }'   username="${user.userName}" password="${user.password}"
+								   style='width:80px;' class="update btn btn-warning"  >
+                                                                                                                     修改
+                                   </button>
+                                   <!-- Modal -->
+                           
+								</td>
+								</c:if>
 						</c:forEach>
 						
 					</c:when>
@@ -122,7 +142,8 @@
 		<div class="modal-body">
 			<div style="padding: 20px;">
 				<div class="row" style='margin-top: 10px;'>
-					<form action="<%=basePath%>user/updateuser" id='updateuserform'
+					<c:if test="${admin.shopId != 0}">
+					  <form action="<%=basePath%>user/updateuser" id='updateuserform'
 						class='form-horizontal' method="post">
 						<div class="row div-common" style='margin-top: 10px;'>
 							<div class="control-group">
@@ -168,6 +189,55 @@
 						<button class="btn" style='float: right; margin-right: 100px;'
 							type="submit">提交</button>
 					</form>
+					</c:if>
+					<c:if test="${admin.shopId == 0}">
+					  <form action="<%=basePath%>user/updatealluser" id='updateuserform'
+						class='form-horizontal' method="post">
+						<div class="row div-common" style='margin-top: 10px;'>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">管理员id</label>
+								<div class="controls">
+									<input class="" name="" id='update_userid' type="text" disabled="true" />
+								</div>
+							</div>
+							<div class="clearfix visible-xs"></div>
+						</div>
+						<div class="row div-common" style='margin-top: 10px;'>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">日志名称</label>
+								<div class="controls">
+									<input class="" id='update_username' name="userName" type="text" />
+								</div>
+							</div>
+							<div class="clearfix visible-xs"></div>
+						</div>
+						<div class='row div-common' style='margin-top: 10px;'>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">原密&nbsp;&nbsp;&nbsp;码</label>
+								<div class="controls">
+									<input name="" id='update_password' type="text"  />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">新密&nbsp;&nbsp;&nbsp;码</label>
+								<div class="controls">
+									<input name="password" id='updatepassword1' type="password"  />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">重复密码</label>
+								<div class="controls">
+									<input name="repassword" type="password" />
+
+								</div>
+								<span></span>
+							</div>
+						</div>
+						<input type="hidden" id='userid' name='adminId'>
+						<button class="btn" style='float: right; margin-right: 100px;'
+							type="submit">提交</button>
+					</form>
+					</c:if>
 				</div>
 			</div>
 

@@ -1,5 +1,6 @@
 package com.qx.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qx.dao.ICommonUserDao;
+import com.qx.dao.impl.LoginDaoImpl;
 import com.qx.model.Admininfo;
 import com.qx.model.Userinfo;
 import com.qx.service.ICommonUserService;
+import com.qx.utils.ConstantUtil;
 
 @Service("adminUserService")
 public class LoginServiceImpl implements ICommonUserService<Admininfo> {
@@ -21,7 +24,7 @@ public class LoginServiceImpl implements ICommonUserService<Admininfo> {
 	private static final Logger logger = Logger
 			.getLogger(LoginServiceImpl.class);
 	@Resource(name="adminUserDao")
-	private ICommonUserDao<Admininfo> LoginDao;
+	private LoginDaoImpl LoginDao;
 
 	@Override
 	public Admininfo findUser(String username, String password) {
@@ -87,7 +90,23 @@ public class LoginServiceImpl implements ICommonUserService<Admininfo> {
 		return null;
 	}
 	
-
-	
-	
+	public void addDefaultAdminByShopId(Integer shopId, String phone)
+	{
+		Admininfo admin = new Admininfo();
+		admin.setAdminStatus(1);
+		admin.setPassword(ConstantUtil.DEFAULTADMINPWD);
+		admin.setUserName(phone);
+		admin.setRegisterTime(new Date());
+		admin.setShopId(shopId);
+		LoginDao.add(admin);
+	}
+	public Admininfo selectByPrimaryKey(Integer id , Integer shopId) {
+		// TODO Auto-generated method stub
+		List list = LoginDao.selectByPrimaryKey(id, shopId);
+		return list == null?null:(Admininfo)list.get(0);
+	}
+	public List<Admininfo> findAllByShopId(Integer shopId) {
+		// TODO Auto-generated method stub
+		return LoginDao.findAllUserByShopId(shopId);
+	}
 }

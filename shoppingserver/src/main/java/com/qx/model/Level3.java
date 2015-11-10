@@ -14,7 +14,25 @@ public class Level3 implements java.io.Serializable {
 	private Level2 level2;
 	private String level3Name;
     private String level3Img;
+    private Integer shopId;
+    private String level3Status;
     
+	public String getLevel3Status() {
+		return level3Status;
+	}
+
+	public void setLevel3Status(String level3Status) {
+		this.level3Status = level3Status;
+	}
+
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
+
 	public String getLevel3Img() {
 		return level3Img;
 	}

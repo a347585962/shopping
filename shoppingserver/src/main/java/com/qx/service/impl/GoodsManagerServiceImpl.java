@@ -22,6 +22,7 @@ import com.qx.model.Goodsinfo;
 import com.qx.model.Level1;
 import com.qx.model.Level2;
 import com.qx.model.Level3;
+import com.qx.model.Shopgoods;
 import com.qx.service.GoodsManagerService;
 import com.qx.service.ILevelOneService;
 import com.qx.service.ILevelThreeService;
@@ -71,9 +72,9 @@ public class GoodsManagerServiceImpl implements GoodsManagerService{
 				 
 				Level1 level1 = levelOneService.findById(classone == null?null:Integer.parseInt(classone));
 				
-				Level2 level2 = levelTwoService.findById(classone == null?null:Integer.parseInt(classtwo));
+				Level2 level2 = levelTwoService.findById(classtwo == null?null:Integer.parseInt(classtwo));
 				
-				Level3 level3 = levelThreeService.findById(classone == null?null:Integer.parseInt(classthree));
+				Level3 level3 = levelThreeService.findById(classthree == null?null:Integer.parseInt(classthree));
 				goodsinfo.setGoodsClass1(level1 == null?null:level1.getLevel1Name());
 				goodsinfo.setGoodsClass2(level2 == null?null:level2.getLevel2Name());
 				goodsinfo.setGoodsClass3(level3 == null?null:level3.getLevel3Name());
@@ -207,7 +208,7 @@ public class GoodsManagerServiceImpl implements GoodsManagerService{
 		return null;
 	}
 	@Override
-	public List<Goodsinfo> searchByMap(String goodsid, String isup, String levelone , String leveltwo
+	public List<Shopgoods> searchByMap(String goodsid, String isup, String levelone , String leveltwo
 			, String levelthree, String barcode, String goodsname, final int pagenow, final int pagesize) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = setSearchParameters(goodsid, isup, levelone, barcode, goodsname, leveltwo, levelthree);
@@ -216,10 +217,36 @@ public class GoodsManagerServiceImpl implements GoodsManagerService{
 		return goodsmanagerDao.searchByMap(parameters, (pagenow - 1)*pagesize, pagesize);
 	}
 	@Override
+	public List<Shopgoods> searchByMap(String goodsid, String isup, String levelone , String leveltwo
+			, String levelthree, String barcode, String goodsname, final int pagenow, final int pagesize, Integer shopId) {
+		// TODO Auto-generated method stub
+		Map<String, Object> parameters = setSearchParameters(goodsid, isup, levelone, barcode,
+				goodsname, leveltwo, levelthree, shopId);
+		
+		
+		return goodsmanagerDao.searchByMap(parameters, (pagenow - 1)*pagesize, pagesize);
+	}
+	@Override
 	public int sizeofAllSearch(String goodsid, String isup, String levelone,
 			String leveltwo, String levelthree , String barcode, String goodsname) {
 		// TODO Auto-generated method stub
-		Map<String, Object> parameters = setSearchParameters(goodsid, isup, levelone, barcode, goodsname, leveltwo, levelthree);
+		Map<String, Object> parameters = setSearchParameters(goodsid, isup, levelone, barcode, goodsname, 
+				leveltwo, levelthree);
+		Set<String> set = parameters.keySet();
+		for (Iterator<String> it = set.iterator();it.hasNext();) {
+            String key = it.next();
+           
+           logger.info(key + ":" + parameters.get(key));
+           
+        }
+		return goodsmanagerDao.sizeofAllSearch(parameters);
+	}
+	@Override
+	public int sizeofAllSearch(String goodsid, String isup, String levelone,
+			String leveltwo, String levelthree , String barcode, String goodsname, Integer shopId) {
+		// TODO Auto-generated method stub
+		Map<String, Object> parameters = setSearchParameters(goodsid, isup, levelone, barcode, goodsname, 
+				leveltwo, levelthree, shopId);
 		Set<String> set = parameters.keySet();
 		for (Iterator<String> it = set.iterator();it.hasNext();) {
             String key = it.next();
@@ -236,33 +263,103 @@ public class GoodsManagerServiceImpl implements GoodsManagerService{
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		if (goodsid != null && !goodsid.isEmpty())
 		{
-			parameters.put("GoodsID", Integer.parseInt(goodsid));
+			parameters.put("t2.GoodsID", Integer.parseInt(goodsid));
 		}
 		if (barcode != null && !barcode.isEmpty())
 		{
-			parameters.put("barcode", barcode);
+			parameters.put("t2.barcode", barcode);
 		}
 		if (goodsname != null && !goodsname.isEmpty())
 		{
-			parameters.put("GoodsName", goodsname);
+			parameters.put("t2.GoodsName", goodsname);
 		}
 		if (isup != null && !isup.isEmpty())
 		{
-			parameters.put("status", Integer.parseInt(isup));
+			parameters.put("t1.shopgoodsStatus", Integer.parseInt(isup));
 		}
 		if (levelthree != null && !levelthree.isEmpty() && !levelthree.equals("0"))
 		{
-			parameters.put("GoodsClass_3", levelthree);
+			parameters.put("t2.GoodsClass_3", levelthree);
 		}
 		else if ((levelthree == null || levelthree.isEmpty() || levelthree.equals("0")) && leveltwo != null && !leveltwo.isEmpty() && !leveltwo.equals("0"))
 		{
-			parameters.put("GoodsClass_2", leveltwo);
+			parameters.put("t2.GoodsClass_2", leveltwo);
 		}
 		else if ((leveltwo == null || leveltwo.isEmpty() || leveltwo.equals("0")) && levelone != null && !levelone.isEmpty() && !levelone.equals("0"))
 		{
-			parameters.put("GoodsClass_1", levelone);
+			parameters.put("t2.GoodsClass_1", levelone);
 		}
 		return parameters;
+	}
+	public Map<String, Object> setSearchParameters(String goodsid, String isup,
+			String levelone, String barcode, String goodsname, String leveltwo, String levelthree, Integer shopId)
+	{
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		if (goodsid != null && !goodsid.isEmpty())
+		{
+			parameters.put("t1.shopgoods_id", Integer.parseInt(goodsid));
+		}
+		if (shopId != null)
+		{
+			parameters.put("t1.shop_id", shopId);
+		}
+		if (barcode != null && !barcode.isEmpty())
+		{
+			parameters.put("t2.barcode", barcode);
+		}
+		if (goodsname != null && !goodsname.isEmpty())
+		{
+			parameters.put("t2.GoodsName", goodsname);
+		}
+		if (isup != null && !isup.isEmpty())
+		{
+			parameters.put("t1.shopgoods_status", Integer.parseInt(isup));
+		}
+		if (levelthree != null && !levelthree.isEmpty() && !levelthree.equals("0"))
+		{
+			parameters.put("t2.GoodsClass_3", levelthree);
+		}
+		else if ((levelthree == null || levelthree.isEmpty() || levelthree.equals("0")) && leveltwo != null && !leveltwo.isEmpty() && !leveltwo.equals("0"))
+		{
+			parameters.put("t2.GoodsClass_2", leveltwo);
+		}
+		else if ((leveltwo == null || leveltwo.isEmpty() || leveltwo.equals("0")) && levelone != null && !levelone.isEmpty() && !levelone.equals("0"))
+		{
+			parameters.put("t2.GoodsClass_1", levelone);
+		}
+		return parameters;
+	}
+	@Override
+	public List<Goodsinfo> findByPage(Integer pagenow, Integer pagesize,
+			Integer shopId) {
+		// TODO Auto-generated method stub
+		List<Goodsinfo> goodsinfos = (pagenow == null || pagesize == null || pagenow == 0 || pagesize == 0)?null:
+			goodsmanagerDao.findByPage((pagenow - 1) * pagesize, pagesize, shopId);
+		if (goodsinfos != null)
+		{
+			for (int i = 0 ; i < goodsinfos.size(); i++) {
+				Goodsinfo goodsinfo = (Goodsinfo) goodsinfos.get(i);
+				String classone = goodsinfo.getGoodsClass1();
+				String classtwo = goodsinfo.getGoodsClass2();
+				String classthree = goodsinfo.getGoodsClass3();
+				 
+				Level1 level1 = levelOneService.findById(classone == null?null:Integer.parseInt(classone));
+				
+				Level2 level2 = levelTwoService.findById(classtwo == null?null:Integer.parseInt(classtwo));
+				
+				Level3 level3 = levelThreeService.findById(classthree == null?null:Integer.parseInt(classthree));
+				goodsinfo.setGoodsClass1(level1 == null?null:level1.getLevel1Name());
+				goodsinfo.setGoodsClass2(level2 == null?null:level2.getLevel2Name());
+				goodsinfo.setGoodsClass3(level3 == null?null:level3.getLevel3Name());
+				goodsinfos.set(i, goodsinfo);
+			}
+		}
+		return goodsinfos;
+	}
+	@Override
+	public int sizeOfAll(Integer shopId) {
+		// TODO Auto-generated method stub
+		return goodsmanagerDao.sizeOfAll(shopId);
 	}
 }
 

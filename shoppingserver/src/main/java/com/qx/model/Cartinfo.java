@@ -16,6 +16,15 @@ public class Cartinfo implements java.io.Serializable {
 	private BigDecimal goodsPrice;
 	private BigDecimal totalPrice;
 	private Integer addressId;
+	private Integer shopId;
+	
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
 
 	public Cartinfo() {
 	}

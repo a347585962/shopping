@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-8 22:30:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Propertyvalue" table="propertyvalue" catalog="shopping">
+        <id name="propertyvalueId" type="java.lang.Integer">
+            <column name="propertyvalue_id" />
+            <generator class="identity" />
+        </id>
+        <property name="propertyvalueValue" type="string">
+            <column name="propertyvalue_value" />
+        </property>
+        <property name="shopgoodsId" type="java.lang.Integer">
+            <column name="shopgoods_id">
+                <comment>&#201;&#204;&#188;&#210;&#201;&#204;&#198;&#183;&#208;&#197;&#207;&#162;id</comment>
+            </column>
+        </property>
+        <property name="propertyStatus" type="java.lang.Integer">
+            <column name="property_status">
+                <comment>
+                &#202;&#244;&#208;&#212;&#214;&#181;&#208;&#197;&#207;&#162;&#215;&#180;&#204;&#172;&#163;&#172;1&#180;&#250;&#177;&#237;&#188;&#164;&#187;&#238;&#163;&#172;0&#180;&#250;&#177;&#237;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
+        <property name="propertyId" type="java.lang.Integer">
+            <column name="property_id">
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

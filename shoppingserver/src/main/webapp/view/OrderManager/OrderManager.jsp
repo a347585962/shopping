@@ -63,7 +63,7 @@
 							<button type="submit" class="btn btn-info">查&nbsp;&nbsp;&nbsp;找</button>
 						</form>
 			</div>
-			
+			<c:if test="${not empty orders }">
 			<div class="table"
 				style="border: 1px solid; height: 800px; margin-top: 15px;">
 				<table class="td-void order-tb">
@@ -80,7 +80,7 @@
 									</span> <input type="hidden" id="datasubmit-9331544789"
 									value="2015-05-11 00:19:38"> <span class="number">订单号：<a
 										name="orderIdLinks" id="idUrl9331544789" target="_blank"
-										href="//order.jd.com/normal/item.action?orderid=9331544789&amp;PassKey=2284AF3EB0CD62C15424267E6DA497F0"
+										href="#"
 										clstag="click|keycount|orderinfo|order_num">${order.orderId }</a>
 
 								</span>
@@ -107,7 +107,7 @@
 										<td style='text-align: center;'>
 											<div class="goods-item">
 												<div class="p-img" data-lazy-img-install="1">
-													<a href="<%=basePath %>goodsmanager/view/${suborder.goodsinfo.goodsId}"
+													<a href="<%=basePath %>goodsmanager/view/${suborder.shopgoods.shopgoodsId}"
 														clstag="click|keycount|orderinfo|order_product"
 														target="_blank"> 
 														<c:if test="${ not empty fn:split(suborder.goodsinfo.photoUrl, ',')[0]}">
@@ -128,7 +128,7 @@
 												</div>
 												<div class="p-msg">
 													<div class="p-name">
-														<a href="<%=basePath %>goodsmanager/view/${suborder.goodsinfo.goodsId}"
+														<a href="<%=basePath %>goodsmanager/view/${suborder.shopgoods.shopgoodsId}"
 															class="a-link"
 															clstag="click|keycount|orderinfo|order_product"
 															target="_blank" title="${suborder.goodsinfo.goodsName}">${suborder.goodsinfo.goodsName}
@@ -160,8 +160,6 @@
 										<td rowspan="3" style='text-align: center;'>
 											<div class="amount">
 												<strong>¥${order.totalPrice }</strong> <br> <span class="ftx-13">
-												
-													
 												 <c:if
 														test="${fn:contains(fn:trim(order.payType), '1')}">
 														  货到付款       
@@ -277,7 +275,24 @@
 				</table>
 
 				<div id="page" class='container'></div>
+				
+				<script type="text/javascript">
+				jQuery(function(){
+					 var pagecount = $("#pagecount").val();
+					 
+					   var pagenow = $("#pagenow").val();
+					   //alert(pagecount + ",pagenow = " + pagenow);
+					   var basePath = $("#url_base").val();
+					   var burl = basePath + "order/manager/";
+					   //alert(pagenow + "," + pagecount);
+					   getPage(pagecount, pagenow, 10, burl);
+				});
+				</script>
 			</div>
+			</c:if>
+			<c:if test="${empty orders }">
+			   <span>亲！还没有用户下单哦！快去推广吧。</span>
+			</c:if>
 			<input type="hidden" id="pagecount" value="${pagecount }"> <input
 				type="hidden" id="pagenow" value="${pagenow }">
 		</div>
@@ -295,10 +310,10 @@
 			action="<%=basePath %>order/update" 
 			 method="post">
 				<div class="control-group">
-					<label class="control-label" for="inputEmail">订单id</label>
+					<label class="control-label" for="inputEmail">订单编号</label>
 					<div class="controls">
 						<input type="text" id="orderid" name="id"
-							placeholder="父节点id" disabled="true">
+							placeholder="订单编号" disabled="true">
 					</div>
 				</div>
 				<div class="control-group">
@@ -328,15 +343,5 @@
 		</div>
 	</div>
 <script src="<%=basePath%>media/js/order.js" type="text/javascript"></script>
-<script type="text/javascript">
-jQuery(function(){
-	 var pagecount = $("#pagecount").val();
-	   var pagenow = $("#pagenow").val();
-	   var basePath = $("#url_base").val();
-	   var burl = basePath + "order/manager/";
-	   //alert(pagenow + "," + pagecount);
-	   getPage(pagecount, pagenow, 10, burl);
-});
-</script>
 </body>
 </html>

@@ -117,5 +117,68 @@ public class LogServiceImpl implements ILogService {
 			return null;
 		}
 	}
+	public List<Loginfo> findByPage(int start, int size, Integer shopId) {
+		// TODO Auto-generated method stub
+		start = (start - 1) * size;
+		List<Loginfo> list = logDao.findByPage(start , size, shopId);
+		if (list != null)
+		{
+			for (int i = 0; i < list.size(); i++) {
+				Loginfo loginfo = list.get(i);
+				//logger.info(loginfo.getOperaterType() + "," + loginfo.getOperaterType().equals(ConstantUtil.ADMINTYPE));
+				if (loginfo.getOperaterType().equals(ConstantUtil.ADMINTYPE))
+				{
+					Admininfo admin = adminService.selectByPrimaryKey(Integer.parseInt(loginfo.getOperaterType()));
+					loginfo.setOperaterType("管理员日志");
+					loginfo.setAdmininfo(admin);
+				}
+				else if (loginfo.getOperaterType().equals(ConstantUtil.USERTYPE)) {
+					Userinfo user = userService.selectByPrimaryKey(Integer.parseInt(loginfo.getOperaterType()));
+					loginfo.setOperaterType("用户日志");
+					loginfo.setUserinfo(user);
+				}
+				list.set(i, loginfo);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public Loginfo selectByPrimaryId(Integer id, Integer shopId) {
+		// TODO Auto-generated method stub
+		if (id != null)
+		{
+			List<Loginfo> list = logDao.selectByPrimaryId(id, shopId);
+			Loginfo loginfo = null;
+			if (list != null && list.size() > 0)
+			{
+				loginfo = list.get(0);
+				if (loginfo.getOperaterType().equals(ConstantUtil.ADMINTYPE)) {
+					Admininfo admin = adminService.selectByPrimaryKey(Integer
+							.parseInt(loginfo.getOperaterType()));
+					loginfo.setOperaterType("管理员日志");
+					loginfo.setAdmininfo(admin);
+				} else if (loginfo.getOperaterType().equals(ConstantUtil.USERTYPE)) {
+					Userinfo user = userService.selectByPrimaryKey(Integer
+							.parseInt(loginfo.getOperaterType()));
+					loginfo.setOperaterType("用户日志");
+					loginfo.setUserinfo(user);
+				}
+			}
+
+			return loginfo;
+		}
+		else
+		{
+			logger.error("查询的日志id为null!");
+			return null;
+		}
+	}
+
+	@Override
+	public int findLogSize(Integer shopId) {
+		// TODO Auto-generated method stub
+		return logDao.findLogSize(shopId);
+	}
 
 }

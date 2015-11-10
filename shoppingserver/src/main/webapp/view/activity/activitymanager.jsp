@@ -73,7 +73,7 @@
 
 									</td>
 							</c:forEach>
-
+						<script src="<%=basePath%>media/js/activity.js" type="text/javascript"></script>
 						</c:when>
 					</c:choose>
 				</table>
@@ -81,7 +81,7 @@
 				<input type="hidden" id="pagecount" value="${pagecount }"> <input
 				type="hidden" id="pagenow" value="${pagenow }">
 		</div>
-	<script src="<%=basePath%>media/js/activity.js" type="text/javascript"></script>
+	
 	</div>
 </div>
 </body>

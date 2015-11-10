@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-8 22:30:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qx.model.Property" table="property" catalog="shopping">
+        <id name="propertyId" type="java.lang.Integer">
+            <column name="property_id" />
+            <generator class="identity" />
+        </id>
+        <property name="propertyName" type="string">
+            <column name="property_name" />
+        </property>
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shop_id">
+                <comment>&#201;&#204;&#188;&#210;id</comment>
+            </column>
+        </property>
+        <property name="propertyStatus" type="java.lang.Integer">
+            <column name="property_status">
+                <comment>
+                &#202;&#244;&#208;&#212;&#215;&#180;&#204;&#172;&#163;&#172;1&#206;&#170;&#188;&#164;&#187;&#238;&#163;&#172;0&#206;&#170;&#206;&#180;&#188;&#164;&#187;&#238;&#161;&#163;</comment>
+            </column>
+        </property>
+         <property name="propertyType" type="string">
+            <column name="property_type">
+              </column>
+        </property>
+        <property name="propertyShowname" type="string">
+            <column name="property_showname">
+              </column>
+        </property>
+    </class>
+</hibernate-mapping>

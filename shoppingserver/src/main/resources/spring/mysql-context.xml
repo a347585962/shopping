@@ -84,6 +84,11 @@
 				<value>com/qx/model/Activity.hbm.xml</value>
 				<value>com/qx/model/Activitytype.hbm.xml</value>
 				<value>com/qx/model/Orderstatus.hbm.xml</value>
+				<value>com/qx/model/Property.hbm.xml</value>
+				<value>com/qx/model/Baseproperty.hbm.xml</value>
+				<value>com/qx/model/Propertyvalue.hbm.xml</value>
+				<value>com/qx/model/Shop.hbm.xml</value>
+				<value>com/qx/model/Shopgoods.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
